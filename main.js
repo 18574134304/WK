@@ -5,7 +5,10 @@ Vue.config.productionTip = false
 
 App.mpType = 'app'
 
+import uView from "uview-ui";
+Vue.use(uView);
+
 const app = new Vue({
-    ...App
+	...App
 })
 app.$mount()
