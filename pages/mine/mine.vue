@@ -1,6 +1,13 @@
 <template>
 	<view class="mine">
-		个人中心
+		个人中心测试git
+		123123123
+<<<<<<< HEAD
+		
+=======
+		aaaaaa
+>>>>>>> wk-text
+新家的东西
 	</view>
 </template>
 
