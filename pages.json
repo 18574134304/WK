@@ -19,12 +19,30 @@
 				}
 			}
 		},
+		// 我的页面
 		{
 			"path": "pages/mine/mine",
 			"style": {
 				"app-plus": {
 					"titleNView": false
 				}
+			}
+		},
+		// 车队管理
+		{
+			"path": "pages/mine/carlist",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		// 设置页面
+		{
+			"path": "pages/mine/setup",
+			"style": {
+				"navigationBarTitleText": "设置",
+				"navigationBarBackgroundColor": "#FFFFFF"
 			}
 		}
 	],
