@@ -7,6 +7,7 @@
 =======
 		aaaaaa
 >>>>>>> wk-text
+新家的东西
 	</view>
 </template>
 
