@@ -7,7 +7,7 @@
 			"path": "pages/index/index",
 			"style": {
 				"app-plus": {
-					"titleNView": "false"
+					"titleNView": false
 				}
 			}
 		},
@@ -15,7 +15,7 @@
 			"path": "pages/content/content",
 			"style": {
 				"app-plus": {
-					"titleNView": "false"
+					"titleNView": false
 				}
 			}
 		},
@@ -23,7 +23,7 @@
 			"path": "pages/mine/mine",
 			"style": {
 				"app-plus": {
-					"titleNView": "false"
+					"titleNView": false
 				}
 			}
 		}
@@ -35,8 +35,8 @@
 		"backgroundColor": "#F8F8F8"
 	},
 	"tabBar": {
-		"color": "#7A7E83",
-		"selectedColor": "#3cc51f",
+		"color": "#5F6672",
+		"selectedColor": "#09BCAF",
 		"borderStyle": "black",
 		"backgroundColor": "#ffffff",
 		"list": [{
