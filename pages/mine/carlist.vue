@@ -61,7 +61,8 @@
 				</view>
 				<view class="bottom-right">
 					<view class="jiesan">解散车队</view>
-					<view class="ok">确认完成</view>
+					<view class="ok" v-if="tabIndex != 2 && tabIndex != 3">确认完成</view>
+					<navigator url="orderDetauls" v-if="tabIndex == 2 || tabIndex == 3"><view class="ok">订单详情</view></navigator>
 				</view>
 			</view>
 		</view>

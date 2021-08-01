@@ -1,17 +1,21 @@
 <template>
 	<view class="setup">
-		<view class="setup-item">
-			<view class="">修改密码</view>
-			<image src="../../static/mine/you.png" mode=""></image>
-		</view>
+		<navigator url="editPassword">
+			<view class="setup-item">
+				<view class="">修改密码</view>
+				<image src="../../static/mine/you.png" mode=""></image>
+			</view>
+		</navigator>
 		<view class="setup-item">
 			<view class="">绑定手机</view>
 			<image src="../../static/mine/you.png" mode=""></image>
 		</view>
-		<view class="setup-item" style="border-bottom:none;">
-			<view class="">关于我们</view>
-			<image src="../../static/mine/you.png" mode=""></image>
-		</view>
+		<navigator url="aboutMy">
+			<view class="setup-item" style="border-bottom:none;">
+				<view class="">关于我们</view>
+				<image src="../../static/mine/you.png" mode=""></image>
+			</view>
+		</navigator>
 		<view class="xian"></view>
 		<view class="setup-item">
 			<view class="">当前版本</view>

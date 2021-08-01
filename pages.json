@@ -44,6 +44,31 @@
 				"navigationBarTitleText": "设置",
 				"navigationBarBackgroundColor": "#FFFFFF"
 			}
+		},
+		// 订单详情页面
+		{
+			"path": "pages/mine/orderDetauls",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		// 关于我们页面
+		{
+			"path": "pages/mine/aboutMy",
+			"style": {
+				"navigationBarTitleText": "关于我们",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		// 修改密码页面
+		{
+			"path": "pages/mine/editPassword",
+			"style": {
+				"navigationBarTitleText": "修改密码",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
 		}
 	],
 	"globalStyle": {
