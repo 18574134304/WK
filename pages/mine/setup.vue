@@ -6,10 +6,12 @@
 				<image src="../../static/mine/you.png" mode=""></image>
 			</view>
 		</navigator>
-		<view class="setup-item">
-			<view class="">绑定手机</view>
-			<image src="../../static/mine/you.png" mode=""></image>
-		</view>
+		<navigator url="bindingMobile">
+			<view class="setup-item">
+				<view class="">绑定手机</view>
+				<image src="../../static/mine/you.png" mode=""></image>
+			</view>
+		</navigator>
 		<navigator url="aboutMy">
 			<view class="setup-item" style="border-bottom:none;">
 				<view class="">关于我们</view>
@@ -24,10 +26,10 @@
 				<image style="margin-left:16rpx;" src="../../static/mine/you.png" mode=""></image>
 			</view>
 		</view>
-		<view class="setup-item">
+		<view class="setup-item" @click="clearStorage">
 			<view class="">清除缓存</view>
 			<view class="">
-				3.54M
+				{{ storageSize }}
 				<image style="margin-left:16rpx;" src="../../static/mine/you.png" mode=""></image>
 			</view>
 		</view>
@@ -39,12 +41,58 @@
 </template>
 
 <script>
+	export default {
+		data() {
+			return {
+				storageSize: ''
+			}
+		},
+		mounted() {
+			this.getStorageSize()
+		},
+		methods: {
+			getStorageSize:function(){
+			let that = this;
+				uni.getStorageInfo({
+					success(res) {
+						let size = res.currentSize;
+						if (size < 1024) {
+							that.storageSize = size + ' B';
+						} else if (size/1024>=1 && size/1024/1024<1) {
+							that.storageSize = Math.floor(size/1024*100)/100 + ' KB';
+						} else if (size/1024/1024>=1) {
+							that.storageSize = Math.floor(size/1024/1024*100)/100 + ' M';
+						}
+					}
+				})
+			},
+			clearStorage:function (){
+				let that = this;
+				uni.showModal({
+					title:'提示',
+					content:'确定清除缓存吗?',
+					confirmText:'立即清除',
+					success(res) {
+						if(res.confirm){
+							uni.clearStorageSync();
+							//重新获取并显示清除后的缓存大小
+							that.getStorageSize();
+							uni.showToast({
+								title:'清除成功'
+							})
+						}
+					}
+				})
+			}
+		}
+	}
 </script>
 
 <style lang="scss" scoped>
 	.setup{
 		height: calc(100vh - 88rpx);
 		position: relative;
+		background-color: #FFFFFF;
 		.setup-item{
 			height: 110rpx;
 			background: #FFFFFF;

@@ -2,9 +2,9 @@
 	<view class="car-list">
 		<title-block></title-block>
 		<view class="car-header">
-			<image class="header-img" src="../../static/index/l1.png" mode=""></image>
+			<image @click="toBack" class="header-img" src="../../static/mine/zuo1.png" mode=""></image>
 			<view class="header-right">
-				<image src="../../static/mine/car2.png" mode=""></image>
+				<image src="../../static/mine/search.png" mode=""></image>
 				<input type="text" value="" placeholder="请输入剧本名称" />
 			</view>
 		</view>
@@ -28,7 +28,8 @@
 				<view class="box-title-right">
 					<view class="right-title">
 						<view class="title-name">{{ item.title }}</view>
-						<image src="../../static/mine/car1.png" mode=""></image>
+						<image v-if="tabIndex == 0 || tabIndex == 1" src="../../static/mine/car1.png" mode=""></image>
+						<view class="right-price" v-if="tabIndex == 2">￥1500</view>
 					</view>
 					<view class="fangjian">
 						<image src="../../static/mine/car3.png" mode=""></image>
@@ -128,6 +129,12 @@
 			// 满员跳车切换
 			jump(name) {
 				this.jumpName = name
+			},
+			// 后退
+			toBack() {
+				uni.navigateBack({
+					delta:1
+				});
 			}
 		}
 	}
@@ -139,25 +146,31 @@
 		height: 100vh;
 		.car-header{
 			padding: 0 32rpx;
-			margin-top: 40rpx;
+			padding-top: 40rpx;
 			display: flex;
 			align-items: center;
 			background-color: #fff;
 			.header-img{
-				width: 40rpx;
-				height: 40rpx;
-				margin-right: 40rpx;
+				width: 20rpx;
+				height: 37rpx;
+				margin-right: 32rpx;
 			}
 			.header-right{
 				color: #F8F8F8;
-				background-color: #eee;
+				background: #F1F1F1;
 				flex: 1;
 				display: flex;
 				align-items: center;
+				height: 55rpx;
+				border-radius: 28rpx;
+				padding-left: 32rpx;
+				font-size: 24rpx;
+				color: #A7A7A7;
 				image{
 					width: 30rpx;
 					height: 30rpx;
 					margin-right: 4rpx;
+					margin-right: 10rpx;
 				}
 			}
 		}
@@ -190,8 +203,6 @@
 				.tab-jump-left{
 					height: 64rpx;
 					line-height: 64rpx;
-					box-shadow: 0rpx 2rpx 8rpx rgba(0, 0, 0, 0.04);
-					border-radius: 100rpx;
 					text-align: center;
 					font-size: 28rpx;
 					font-weight: 600;
@@ -202,7 +213,6 @@
 					height: 64rpx;
 					width: 50%;
 					line-height: 64rpx;
-					border-radius: 100rpx;
 					text-align: center;
 					font-size: 28rpx;
 					font-weight: 600;
@@ -212,6 +222,7 @@
 					background: #FFFFFF;
 					box-shadow: 0rpx 2rpx 8rpx rgba(0, 0, 0, 0.04);
 					color: #333333;
+					border-radius: 100rpx;
 				}
 			}
 		}
@@ -242,6 +253,12 @@
 							font-weight: 600;
 							color: #333333;
 							letter-spacing: 3rpx;
+						}
+						.right-price{
+							font-size: 38rpx;
+							font-weight: 600;
+							color: #F81B49;
+							letter-spacing: 1px;
 						}
 						image{
 							width: 40rpx;
