@@ -1,0 +1,11 @@
+body,
+page {
+	background: #F8F8F8;
+}
+
+.ellipsis-1 {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	/* word-break:break-all; */
+}

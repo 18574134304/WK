@@ -31,23 +31,31 @@
 				</view>
 			</view>
 			<!-- 车队分类 -->
-			<view class="tab">
-				<view class="tab-item" @click="active=1">
-					<text :class="{'tab-active':active===1}">当日待拼车队</text>
-				</view>
-				<view class="tab-item" @click="active=2">
-					<text :class="{'tab-active':active===2}">当日已拼车队</text>
-				</view>
+			<tab-box @tabClick="tabClick" :active="active"></tab-box>
+			<!-- 列表 -->
+			<view class="list">
+				<list-item :num='5'>
+					<view id="btn-group" slot="btn" v-if="active==1" :key="active">
+						<view class="btn">解散</view>
+						<view class="btn">确认完成</view>
+					</view>
+				</list-item>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import ListItem from '../../components/listItem.vue'
+	import TabBox from '../../components/tabBox.vue'
 	export default {
+		components: {
+			ListItem,
+			TabBox
+		},
 		data() {
 			return {
-				active: 1,
+				active: 0,
 				htList: [{
 						text: '待办事项',
 						link: '#'
@@ -71,7 +79,10 @@
 
 		},
 		methods: {
-
+			// 车队分类点击事件
+			tabClick(index) {
+				this.active = index
+			}
 		}
 	}
 </script>
@@ -114,7 +125,7 @@
 			}
 
 			.h2 {
-				padding-top: 48rpx;
+				margin-top: 48rpx;
 				height: 128rpx;
 				display: flex;
 				align-items: center;
@@ -152,6 +163,7 @@
 				height: 192rpx;
 				background-color: #fff;
 				margin: 0 auto;
+				border-radius: 10rpx;
 
 				.c-item {
 					width: 50%;
@@ -176,43 +188,30 @@
 			}
 		}
 
-		.tab {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			height: 53rpx;
-			width: 100%;
-			margin: 40rpx 0 30rpx;
 
-			.tab-item {
-				position: relative;
-				width: 50%;
-				text-align: center;
-				font-size: 32rpx;
-				font-weight: 400;
-				color: #333;
+		.list {
+			width: 750rpx;
+			padding-top: 20rpx;
 
-				text {
-					position: relative;
-					z-index: 10;
-					transition: 0.3s all;
+			#btn-group {
+				margin-top: 20rpx;
+				display: flex;
+				justify-content: start;
+
+				.btn {
+					width: calc((100% - 60rpx)/4);
+					text-align: center;
+					line-height: 48rpx;
+					background-color: pink;
+					background-color: #F8F8F8;
+					border-radius: 10rpx;
+					font-size: 24rpx;
+					color: #999;
+					border: 1rpx solid #F8F8F8;
+					margin-right: 20rpx;
 				}
 			}
 
-			.tab-active {
-				font-size: 38rpx;
-				font-weight: 600;
-				&::after {
-					content: "";
-					position: absolute;
-					bottom: 0;
-					right: 0;
-					width: 90%;
-					height: 0;
-					border-top: 16rpx solid #00BAAD;
-					z-index: 1;
-				}
-			}
 		}
 	}
 </style>
