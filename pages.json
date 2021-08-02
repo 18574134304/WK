@@ -21,6 +21,9 @@
 				}
 			}
 		},
+		
+		
+		//mine开始
 		// 我的页面
 		{
 			"path": "pages/mine/mine",
@@ -88,6 +91,71 @@
 			"style": {
 				"navigationBarTitleText": "修改密码",
 				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		// 绑定手机页面
+		{
+			"path": "pages/mine/bindingMobile",
+			"style": {
+				"navigationBarTitleText": "绑定手机",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		// dm管理页面
+		{
+			"path": "pages/mine/dmStration",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		// DM信息页面
+		{
+			"path": "pages/mine/dmInfo",
+			"style": {
+				"navigationBarTitleText": "DM信息",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		// 销售统计页面
+		{
+			"path": "pages/mine/sale",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		// 用户排行榜页面
+		{
+			"path": "pages/mine/ranking",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		// 剧本排行榜页面
+		{
+			"path": "pages/mine/scriptRanking",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		//mine结束
+		
+		
+		
+		// 剧本排行榜页面
+		{
+			"path": "pages/scriptDetails/details",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
 			}
 		}
 	],
