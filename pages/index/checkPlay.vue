@@ -3,7 +3,7 @@
 		<title-block></title-block>
 		<!-- 头部搜索框 -->
 		<view class="header">
-			<image src="../../static/index/back.png" class="back"></image>
+			<image src="../../static/index/back.png" class="back" @click="back"></image>
 			<view class="search">
 				<image src="../../static/content/search-icon.png"></image>
 				<input type="text" value="" placeholder="请输入剧本名称/发行商/剧本类型" />
