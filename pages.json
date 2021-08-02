@@ -19,6 +19,9 @@
 				}
 			}
 		},
+		
+		
+		//mine开始
 		// 我的页面
 		{
 			"path": "pages/mine/mine",
@@ -116,6 +119,19 @@
 		// 剧本排行榜页面
 		{
 			"path": "pages/mine/scriptRanking",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		//mine结束
+		
+		
+		
+		// 剧本排行榜页面
+		{
+			"path": "pages/scriptDetails/details",
 			"style": {
 				"app-plus": {
 					"titleNView": false
