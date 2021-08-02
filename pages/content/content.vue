@@ -8,7 +8,7 @@
 				<input type="text" value="" placeholder="请输入剧本名称" />
 			</view>
 			<view class="group">
-				<navigator url="../index/newTeam" hover-class="none">
+				<navigator url="../index/schedule" hover-class="none">
 					<image src="../../static/index/h-r.png"></image>
 				</navigator>
 				<navigator url="../index/newTeam" hover-class="none">
