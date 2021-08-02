@@ -6,8 +6,12 @@
 			<view class="h1">
 				<text>MINI沉浸式剧本推理社</text>
 				<view class="group">
-					<image src="../../static/index/h-r.png"></image>
-					<image src="../../static/index/h-a.png"></image>
+					<navigator url="./newTeam" hover-class="none">
+						<image src="../../static/index/h-r.png"></image>
+					</navigator>
+					<navigator url="./newTeam" hover-class="none">
+						<image src="../../static/index/h-a.png"></image>
+					</navigator>
 				</view>
 			</view>
 			<view class="h2">
@@ -34,10 +38,10 @@
 			<tab-box @tabClick="tabClick" :active="active"></tab-box>
 			<!-- 列表 -->
 			<view class="list">
-				<list-item :num='5'>
+				<list-item :num='5' :show2="show2" :pShow="pShow" @close="pShow=false" @confirm="show2=false">
 					<view id="btn-group" slot="btn" v-if="active==1" :key="active">
-						<view class="btn">解散</view>
-						<view class="btn">确认完成</view>
+						<view class="btn" @click="pShow=true">解散</view>
+						<view class="btn" @click="show2=true">确认完成</view>
 					</view>
 				</list-item>
 			</view>
@@ -55,6 +59,11 @@
 		},
 		data() {
 			return {
+				// 确认弹窗
+				show2:false,
+				// 解散弹窗
+				pShow:false,
+				// 分类选中
 				active: 0,
 				htList: [{
 						text: '待办事项',
@@ -74,9 +83,6 @@
 					}
 				]
 			}
-		},
-		onLoad() {
-
 		},
 		methods: {
 			// 车队分类点击事件
@@ -116,10 +122,15 @@
 					display: flex;
 					align-items: center;
 
-					image {
+					navigator {
 						width: 40rpx;
 						height: 40rpx;
 						margin-right: 20rpx;
+					}
+
+					image {
+						width: 100%;
+						height: 100%;
 					}
 				}
 			}

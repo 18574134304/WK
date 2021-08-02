@@ -3,6 +3,7 @@
 		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
 	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		// 首页
 		{
 			"path": "pages/index/index",
 			"style": {
@@ -11,6 +12,7 @@
 				}
 			}
 		},
+		// 预约车队
 		{
 			"path": "pages/content/content",
 			"style": {
@@ -22,6 +24,24 @@
 		// 我的页面
 		{
 			"path": "pages/mine/mine",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		// 新建车队页面
+		{
+			"path": "pages/index/newTeam",
+			"style": {
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "新建车队"
+			}
+		},
+		// 选择剧本
+		{
+			"path": "pages/index/checkPlay",
 			"style": {
 				"app-plus": {
 					"titleNView": false
