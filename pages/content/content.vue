@@ -8,7 +8,7 @@
 				<input type="text" value="" placeholder="请输入剧本名称" />
 			</view>
 			<view class="group">
-				<navigator url="../index/newTeam" hover-class="none">
+				<navigator url="../index/schedule" hover-class="none">
 					<image src="../../static/index/h-r.png"></image>
 				</navigator>
 				<navigator url="../index/newTeam" hover-class="none">
@@ -22,8 +22,8 @@
 			<text space="nbsp">{{systemTime +'  '+ nowWeek}}</text>
 			<image src="../../static/content/time-r.png"></image>
 		</view>
-		<u-calendar id="content-calendar" btn-type="success" month-arrow-color="#00BAAD" active-bg-color="#00BAAD" :change-year="false"
-			v-model="show" :mode="mode" @change="change"></u-calendar>
+		<u-calendar id="content-calendar" btn-type="success" month-arrow-color="#00BAAD" active-bg-color="#00BAAD"
+			:change-year="false" v-model="show" :mode="mode" @change="change"></u-calendar>
 
 		<!-- 车队分类 -->
 		<tab-box @tabClick="tabClick" :active="active"></tab-box>
@@ -61,9 +61,9 @@
 		data() {
 			return {
 				// 确认弹窗
-				show2:false,
+				show2: false,
 				// 解散弹窗
-				pShow:false,
+				pShow: false,
 				// 车队选中
 				active: 0,
 				show: false,
@@ -146,12 +146,13 @@
 				display: flex;
 				align-items: center;
 				padding-left: 20rpx;
+
 				navigator {
 					width: 40rpx;
 					height: 40rpx;
 					margin-left: 20rpx;
 				}
-				
+
 				image {
 					width: 100%;
 					height: 100%;

@@ -6,7 +6,7 @@
 			<view class="h1">
 				<text>MINI沉浸式剧本推理社</text>
 				<view class="group">
-					<navigator url="./newTeam" hover-class="none">
+					<navigator url="./schedule" hover-class="none">
 						<image src="../../static/index/h-r.png"></image>
 					</navigator>
 					<navigator url="./newTeam" hover-class="none">

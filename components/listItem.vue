@@ -68,10 +68,10 @@
 						<view class="c-item">
 							<image src="../static/index/add-icon.png"></image>
 						</view>
-						<view class="c-item">
+						<view class="c-item" @click="unLockFlag=true">
 							<image src="../static/index/lock.png"></image>
 						</view>
-						<view class="c-item">
+						<view class="c-item" @click="lockFlag=true">
 							<image src="../static/index/Unlock.png"></image>
 						</view>
 					</view>
@@ -91,6 +91,12 @@
 		<!-- 完成 -->
 		<u-modal v-model="completeFlag" :show-title="false" @confirm="submit" confirm-color="#09BCAF" content="当前车队已完成">
 		</u-modal>
+		<!-- 锁定车位弹框 -->
+		<u-modal v-model="lockFlag" :show-title="false" @confirm="confirm(1)" @cancel="cancel" :show-cancel-button="true"
+			confirm-color="#09BCAF" content="是否锁定车位？"></u-modal>
+		<!-- 解锁车位弹框 -->
+		<u-modal v-model="unLockFlag" :show-title="false" @confirm="confirm(1)" @cancel="cancel" :show-cancel-button="true"
+			confirm-color="#09BCAF" content="是否解锁车位？"></u-modal>
 	</view>
 </template>
 
@@ -123,6 +129,10 @@
 				cTipShow: false,
 				// 车队宣传语
 				carValue: '',
+				// 锁定车位弹窗
+				lockFlag: false,
+				// 解锁车位弹窗
+				unLockFlag: false,
 				// 锁车 提示文本
 				content: `锁车后该车队会自动动成单<br>是否确认锁车？`
 			}
@@ -148,6 +158,14 @@
 			// 车队宣传语取消
 			carCancel() {
 				this.carValue = ''
+			},
+			// 解锁车位
+			unlock(){
+				
+			},
+			// 锁定车位
+			lock(){
+				
 			}
 		},
 		computed: {
@@ -203,14 +221,14 @@
 				justify-content: space-between;
 
 				.c-item {
-					width: 88rpx;
+					width: calc((100% - 60rpx) / 4);
 					height: 88rpx;
 					border-radius: 50%;
 
 					image {
 						width: 88rpx;
-					border-radius: 50%;
 						height: 88rpx;
+					border-radius: 50%;
 					}
 				}
 
