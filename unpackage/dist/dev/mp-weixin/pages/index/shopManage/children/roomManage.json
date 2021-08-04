@@ -1,0 +1,7 @@
+{
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarTitleText": "房间管理",
+  "usingComponents": {
+    "u-modal": "/uview-ui/components/u-modal/u-modal"
+  }
+}

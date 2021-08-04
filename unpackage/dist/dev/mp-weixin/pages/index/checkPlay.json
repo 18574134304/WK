@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "title-block": "/components/title-block/title-block",
+    "jb-item": "/components/JbItem"
+  }
+}

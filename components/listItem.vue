@@ -60,7 +60,9 @@
 				<view class="cb">
 					<view class="cb-box">
 						<view class="c-item" v-for="item in 4">
-							<image src="https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83erOIHqDC5pYZlR3al4ZzGsPmnmmJ8Bf9BTMUChDHGhRlvJNQyN4bOR1Q7Yv2j1YiaHNdMVovzicTxwA/132"></image>
+							<image
+								src="https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83erOIHqDC5pYZlR3al4ZzGsPmnmmJ8Bf9BTMUChDHGhRlvJNQyN4bOR1Q7Yv2j1YiaHNdMVovzicTxwA/132">
+							</image>
 						</view>
 						<view class="c-item">
 							<image src="../static/index/n-avatar.png"></image>
@@ -92,11 +94,11 @@
 		<u-modal v-model="completeFlag" :show-title="false" @confirm="submit" confirm-color="#09BCAF" content="当前车队已完成">
 		</u-modal>
 		<!-- 锁定车位弹框 -->
-		<u-modal v-model="lockFlag" :show-title="false" @confirm="confirm(1)" @cancel="cancel" :show-cancel-button="true"
-			confirm-color="#09BCAF" content="是否锁定车位？"></u-modal>
+		<u-modal v-model="lockFlag" :show-title="false" @confirm="confirm(1)" @cancel="cancel"
+			:show-cancel-button="true" confirm-color="#09BCAF" content="是否锁定车位？"></u-modal>
 		<!-- 解锁车位弹框 -->
-		<u-modal v-model="unLockFlag" :show-title="false" @confirm="confirm(1)" @cancel="cancel" :show-cancel-button="true"
-			confirm-color="#09BCAF" content="是否解锁车位？"></u-modal>
+		<u-modal v-model="unLockFlag" :show-title="false" @confirm="confirm(1)" @cancel="cancel"
+			:show-cancel-button="true" confirm-color="#09BCAF" content="是否解锁车位？"></u-modal>
 	</view>
 </template>
 
@@ -160,12 +162,12 @@
 				this.carValue = ''
 			},
 			// 解锁车位
-			unlock(){
-				
+			unlock() {
+
 			},
 			// 锁定车位
-			lock(){
-				
+			lock() {
+
 			}
 		},
 		computed: {
@@ -201,6 +203,7 @@
 		align-items: center;
 		justify-content: space-between;
 		padding-bottom: 10rpx;
+
 		.car-icon {
 			width: 50rpx;
 			height: 48rpx;
@@ -228,7 +231,7 @@
 					image {
 						width: 88rpx;
 						height: 88rpx;
-					border-radius: 50%;
+						border-radius: 50%;
 					}
 				}
 
@@ -253,6 +256,7 @@
 			border: 1rpx solid #eee;
 
 			textarea {
+				font-size: 28rpx;
 				width: auto;
 			}
 		}

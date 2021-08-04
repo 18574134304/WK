@@ -1,0 +1,7 @@
+{
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarTitleText": "营业时间",
+  "usingComponents": {
+    "u-picker": "/uview-ui/components/u-picker/u-picker"
+  }
+}

@@ -1,0 +1,1 @@
+<view id="shop-name" class="data-v-16d4ecf3"><view class="content data-v-16d4ecf3"><view class="item data-v-16d4ecf3"><text class="lable data-v-16d4ecf3">门店名称</text><input type="text" value="" placeholder="请输入门店名称" class="data-v-16d4ecf3"/></view></view><view class="save data-v-16d4ecf3"><view class="data-v-16d4ecf3">保存</view></view></view>

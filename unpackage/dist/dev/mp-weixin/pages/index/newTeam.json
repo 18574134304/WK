@@ -1,0 +1,12 @@
+{
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarTextStyle": "black",
+  "navigationBarTitleText": "新建车队",
+  "usingComponents": {
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-modal": "/uview-ui/components/u-modal/u-modal",
+    "u-select": "/uview-ui/components/u-select/u-select",
+    "u-picker": "/uview-ui/components/u-picker/u-picker",
+    "u-popup": "/uview-ui/components/u-popup/u-popup"
+  }
+}

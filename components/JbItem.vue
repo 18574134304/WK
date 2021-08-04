@@ -29,6 +29,7 @@
 					</view>
 				</view>
 			</view>
+				<slot name="btn-Group"></slot>
 		</view>
 	</view>
 </template>
@@ -49,8 +50,9 @@
 		background-color: #fff;
 		border-radius: 10rpx;
 		margin-bottom: 20rpx;
+		height: auto;
 		overflow: hidden;
-
+		padding-bottom: 16rpx;
 		.avatar {
 			width: 100%;
 			height: 443rpx;
@@ -62,7 +64,7 @@
 		}
 
 		.info {
-			padding: 26rpx 16rpx;
+			padding: 26rpx 16rpx 10rpx;
 
 			.t-tile {
 				.name {

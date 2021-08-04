@@ -1,6 +1,6 @@
 <template>
 	<view id="checkPlay">
-		<title-block></title-block>
+		<title-block color="#fff"></title-block>
 		<!-- 头部搜索框 -->
 		<view class="header">
 			<image src="../../static/index/back.png" class="back" @click="back"></image>
