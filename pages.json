@@ -12,6 +12,15 @@
 				}
 			}
 		},
+		// 排班表
+		{
+			"path": "pages/index/schedule",
+			"style": {
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "排班表"
+			}
+		},
 		// 预约车队
 		{
 			"path": "pages/content/content",

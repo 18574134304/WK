@@ -8,7 +8,7 @@
 				</view>
 				<view class="header-center">剧本详情</view>
 				<view class="right-img">
-					<image style="width: 40rpx;height: 40rpx;" src="../../static/details/detele.png" mode=""></image>
+					<image @click="show = true" style="width: 40rpx;height: 40rpx;" src="../../static/details/detele.png" mode=""></image>
 				</view>
 			</view>
 			
@@ -79,10 +79,77 @@
 				<text>编辑</text>
 			</view>
 		</view>
+		
+		
+		<!-- 下边两个按钮到时候要做判断 -->
+		<!-- <view @click="addShow = true" class="details-add-btn">
+			<image src="../../static/details/add.png" mode=""></image>
+			<text>收录</text>
+		</view>
+		<view @click="deleteShow = true" class="details-delete-btn">
+			<image src="../../static/details/dload.png" mode=""></image>
+			<text>下架</text>
+		</view> -->
+		
+		<!-- 删除弹框 -->
+		<u-modal v-model="show" :content="content" title="提示" :mask-close-able="true" show-cancel-button @cancel="showConfirm">
+			
+		</u-modal>
+		
+		<!-- 收慕弹框 -->
+		<u-modal v-model="addShow" title="上架剧本" :mask-close-able="true" show-cancel-button @cancel="addShowConfirm">
+			<view class="showClass">
+				<view class="addDetails">
+					<view class="addName">剧本名称:</view>
+					<view class="addCon">木夕僧之戏</view>
+				</view>
+				<view class="addDetails">
+					<view class="addName">剧本价格</view>
+					<input type="text" value="" placeholder="请输入剧本价格/人" />
+				</view>
+			</view>
+		</u-modal>
+		
+		<!-- 底部下架弹框 -->
+		<u-modal :show-title="false" v-model="deleteShow" :content="deleteContent" :show-cancel-button="deleteFlag" @cancel="deleteConfirm">
+			
+		</u-modal>
 	</view>
 </template>
 
 <script>
+	export default {
+		data() {
+			return {
+				show: false,     // 右上角删除按钮  
+				addShow: false,    // 收录弹框
+				deleteShow: false,  // 下架弹框
+				deleteFlag: true,  // 下架是否显示取消按钮
+				content: '是否确认将该剧本移除本店剧本库',
+				deleteContent: '是否确认下架该剧本下架后用户将无法在本店看到该剧本',   // 底部下架按钮内容   下架失败显示   该剧本有参与的车队无法进行下架
+			}
+		},
+		methods:{
+			// 右上角删除操作
+			showConfirm() {
+				this.show = false
+			},
+			// 收录按钮操作
+			addShowConfirm() {
+				this.addShow = false
+			},
+			// 收录按钮操作
+			deleteConfirm() {
+				this.deleteShow = false
+			},
+			// 会退页面
+			toBack() {
+				uni.navigateBack({
+					delta:1
+				});
+			}
+		}
+	}
 </script>
 
 <style lang="scss" scoped>
@@ -279,5 +346,58 @@
 				}
 			}
 		}
+		.details-add-btn{
+			display: flex;
+			margin: 0 32rpx;
+			align-items: center;
+			justify-content: center;
+			font-size: 28rpx;
+			line-height: 80rpx;
+			color: #FFFFFF;
+			background: #09BCAF;
+			border-radius: 40px;
+			margin-bottom: 40rpx;
+			image{
+				width: 32rpx;
+				height: 32rpx;
+			}
+		}
+		.details-delete-btn{
+			display: flex;
+			margin: 0 32rpx;
+			align-items: center;
+			justify-content: center;
+			font-size: 28rpx;
+			line-height: 80rpx;
+			color: #FFFFFF;
+			background: #FF5733;
+			border-radius: 40px;
+			margin-bottom: 40rpx;
+			image{
+				width: 32rpx;
+				height: 32rpx;
+			}
+		}
+		
+		.showClass{
+			padding-left: 26rpx;
+			.addDetails{
+				display: flex;
+				align-items: center;
+				font-size: 32rpx;
+				line-height: 45rpx;
+				color: #333333;
+				.addName{
+					margin-right: 45rpx;
+				}
+				input{
+					height: 45rpx;
+					font-size: 32rpx;
+					line-height: 45rpx;
+					color: #999999;
+				}
+			}
+		}
+		
 	}
 </style>

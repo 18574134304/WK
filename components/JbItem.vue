@@ -1,6 +1,6 @@
 <template>
 	<view class="box">
-		<view class="j-item" v-for="item in 7">
+		<view class="j-item" v-for="item in 7" @click="goDetail">
 			<view class="avatar">
 				<image src="@/static/index/checkPlay/jimg.png" mode=""></image>
 			</view>
@@ -35,6 +35,13 @@
 </template>
 
 <script>
+	export default {
+		methods:{
+			goDetail(){
+				this.$emit("goDetail")
+			}
+		}
+	}
 </script>
 
 <style lang="scss" scoped>

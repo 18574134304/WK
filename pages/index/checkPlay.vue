@@ -22,7 +22,7 @@
 			</view>
 		</view>
 		<view class="j-list">
-			<jb-item></jb-item>
+			<jb-item @goDetail="goDetail"></jb-item>
 		</view>
 	</view>
 </template>
@@ -37,6 +37,13 @@
 			return {
 				active: null,
 				peopleList: ['<=4人', '5人', '6人', '7人', '8人', '9人', '10人', '10人+']
+			}
+		},
+		methods:{
+			goDetail(){
+				uni.navigateTo({
+					url:"../scriptDetails/details"
+				})
 			}
 		}
 	}
