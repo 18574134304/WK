@@ -90,7 +90,7 @@
 
 <style lang="scss" scoped>
 	.setup{
-		height: calc(100vh - 88rpx);
+		height: calc(100vh - 87rpx);
 		position: relative;
 		background-color: #FFFFFF;
 		.setup-item{
