@@ -3,9 +3,7 @@
 		<title-block></title-block>
 		<view class="mine-header">
 			<image class="mine-bg" src="../../static/mine/mineBg.png" mode=""></image>
-			<navigator url="setup">
-				<image src="../../static/mine/mine3.png" mode=""></image>
-			</navigator>
+			<image @click="imgTo" src="../../static/mine/mine3.png" mode=""></image>
 			<view class="header-title">
 				<view class="title-left">
 					<view class="left-top">MINI沉浸式剧本推理社</view>
@@ -108,6 +106,11 @@
 			}
 		},
 		methods: {
+			imgTo() {
+				uni.navigateTo({
+					url:'./setup'
+				})
+			},
 			// 四个tab跳转
 			toPath(path) {
 				uni.navigateTo({

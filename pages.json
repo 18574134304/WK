@@ -154,6 +154,39 @@
 				}
 			}
 		},
+		// 我的钱包页面
+		{
+			"path": "pages/mine/myWallet",
+			"style": {
+				"navigationBarTitleText": "我的钱包",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"app-plus":{//app端特有属性
+						"titleNView":{
+							"buttons":[{
+								"color":"#09BCAF",
+								"fontSize":"28rpx",
+								"text":"绑定银行卡"
+							}]
+						}
+					}
+			}
+		},
+		// 提现页面
+		{
+			"path": "pages/mine/withdrawal",
+			"style": {
+				"navigationBarTitleText": "提现",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		// 提现规则页面
+		{
+			"path": "pages/mine/withdrawalRule",
+			"style": {
+				"navigationBarTitleText": "提现规则",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
 		//mine结束
 		
 		
