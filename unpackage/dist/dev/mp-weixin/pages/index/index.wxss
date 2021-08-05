@@ -109,7 +109,6 @@
 .index .content.data-v-57280228 {
   width: 750rpx;
   background: #F8F8F8;
-  padding-bottom: 20rpx;
 }
 .index .content .card.data-v-57280228 {
   display: -webkit-box;

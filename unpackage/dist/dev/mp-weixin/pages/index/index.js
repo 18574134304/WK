@@ -96,7 +96,7 @@ var components
 try {
   components = {
     titleBlock: function() {
-      return __webpack_require__.e(/*! import() | components/title-block/title-block */ "components/title-block/title-block").then(__webpack_require__.bind(null, /*! @/components/title-block/title-block.vue */ 263))
+      return __webpack_require__.e(/*! import() | components/title-block/title-block */ "components/title-block/title-block").then(__webpack_require__.bind(null, /*! @/components/title-block/title-block.vue */ 274))
     }
   }
 } catch (e) {
@@ -170,7 +170,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var ListItem = function ListItem() {__webpack_require__.e(/*! require.ensure | components/listItem */ "components/listItem").then((function () {return resolve(__webpack_require__(/*! ../../components/listItem.vue */ 270));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var TabBox = function TabBox() {__webpack_require__.e(/*! require.ensure | components/tabBox */ "components/tabBox").then((function () {return resolve(__webpack_require__(/*! ../../components/tabBox.vue */ 277));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var ListItem = function ListItem() {__webpack_require__.e(/*! require.ensure | components/listItem */ "components/listItem").then((function () {return resolve(__webpack_require__(/*! ../../components/listItem.vue */ 281));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var TabBox = function TabBox() {__webpack_require__.e(/*! require.ensure | components/tabBox */ "components/tabBox").then((function () {return resolve(__webpack_require__(/*! ../../components/tabBox.vue */ 288));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -247,7 +247,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
       {
         text: '剧本管理',
-        link: '#' },
+        link: '../scriptDetails/playManage' },
 
       {
         text: '收入管理',

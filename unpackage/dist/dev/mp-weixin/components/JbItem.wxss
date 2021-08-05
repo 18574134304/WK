@@ -40,7 +40,9 @@
   background-color: #fff;
   border-radius: 10rpx;
   margin-bottom: 20rpx;
+  height: auto;
   overflow: hidden;
+  padding-bottom: 16rpx;
 }
 .j-item .avatar.data-v-513b5ff4 {
   width: 100%;
@@ -51,7 +53,7 @@
   height: 100%;
 }
 .j-item .info.data-v-513b5ff4 {
-  padding: 26rpx 16rpx;
+  padding: 26rpx 16rpx 10rpx;
 }
 .j-item .info .t-tile .name.data-v-513b5ff4 {
   position: relative;

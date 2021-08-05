@@ -1,1 +1,0 @@
-<view id="shop-address"><button data-event-opts="{{[['tap',[['shopMap',['$event']]]]]}}" bindtap="__e">123123123</button></view>

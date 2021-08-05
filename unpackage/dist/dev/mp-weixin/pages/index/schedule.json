@@ -1,0 +1,8 @@
+{
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "navigationBarTextStyle": "black",
+  "navigationBarTitleText": "排班表",
+  "usingComponents": {
+    "u-calendar": "/uview-ui/components/u-calendar/u-calendar"
+  }
+}

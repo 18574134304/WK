@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/index/schedule",
     "pages/content/content",
     "pages/mine/mine",
     "pages/index/newTeam",
@@ -13,9 +14,10 @@
     "pages/index/shopManage/children/shopName",
     "pages/index/shopManage/children/shopMobile/shopMobile",
     "pages/index/shopManage/children/shopMobile/addMobile",
-    "pages/index/shopManage/children/shopAddress/shopAddress",
+    "pages/index/shopManage/children/shopAddress",
     "pages/index/shopManage/children/shopTime",
     "pages/index/shopManage/children/roomManage",
+    "pages/scriptDetails/playManage",
     "pages/mine/setup",
     "pages/mine/orderDetauls",
     "pages/mine/aboutMy",
@@ -61,5 +63,6 @@
       }
     ]
   },
-  "usingComponents": {}
+  "usingComponents": {},
+  "sitemapLocation": "sitemap.json"
 }
