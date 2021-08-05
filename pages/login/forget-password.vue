@@ -6,23 +6,23 @@
 			<view class="title">忘记密码</view>
 			<view class="item">
 				<view class="text">账号</view>
-				<input class="ipt" type="number" maxlength="11" placeholder="请输入手机号" />
+				<input v-model="params.mobile" class="ipt" type="number" maxlength="11" placeholder="请输入手机号" />
 
 			</view>
 			<view class="item">
 				<view class="text">验证码</view>
-				<input class="ipt" type="number" placeholder="请输入验证码" />
+				<input v-model="params.captcha" class="ipt" type="number" placeholder="请输入验证码" />
 				<view class="code" v-if="canDjs" @tap="getCode">获取验证码</view>
 				<view class="code" v-else>{{num}}秒后重新发送</view>
 			</view>
 			<view class="item">
 				<view class="text">密码</view>
-				<input class="ipt" type="password" maxlength="12" placeholder="请输入密码(6~12位)" />
+				<input v-model="params.password" class="ipt" type="password" maxlength="12" placeholder="请输入密码(6~12位)" />
 			</view>
 
 			<view class="item">
 				<view class="text">确认密码</view>
-				<input class="ipt" type="password" maxlength="12" placeholder="请确认密码(6~12位)" />
+				<input v-model="okpassword" class="ipt" type="password" maxlength="12" placeholder="请确认密码(6~12位)" />
 			</view>
 
 			<view class="btn" @tap="ok">确认</view>
@@ -37,7 +37,115 @@
 				pageName: 'code', //密码or验证码
 				num: 60, //验证码
 				canDjs: true,
+				timer: null,
+				params: {
+					mobile: '',
+					captcha: '',
+					password: '',
+					userType: '1',
+					event: ''
+				},
+				okpassword: ''
 			};
+		},
+		methods:{
+			// 倒计时
+			yzmDjs() {
+				clearInterval(this.timer)
+			    if (this.num == 0) {
+					 this.canDjs = true;
+					 this.num = 60;
+			    }else {
+					this.canDjs = false
+					this.timer = setTimeout(() => {
+						this.num--;
+						this.yzmDjs();
+					}, 1000)
+				}
+			  },
+			  // 获取验证码
+			async getCode() {
+				if(this.params.mobile == '') {
+					uni.showToast({
+						title: '请输入手机号',
+						icon: 'none'
+					})
+					return
+				}
+				
+				this.yzmDjs()
+				this.params.event = 'forget'
+				let {data: res} = await this.$request.request({
+					url: '/v1/sms/aliSend',
+					method: 'post',
+					data: this.params
+				})
+				if(res.code == 1) {
+					this.params.captcha == res.data
+				}else {
+					uni.showToast({
+						title: '验证码获取失败',
+						icon: 'none'
+					})
+				}
+			},
+			// 点击确定
+			async ok() {
+				if(this.params.mobile == '') {
+					uni.showToast({
+						title: '请输入手机号',
+						icon: 'none'
+					})
+					return
+				}
+				if(this.params.captcha == '') {
+					uni.showToast({
+						title: '请输入验证码',
+						icon: 'none'
+					})
+					return
+				}
+				if(this.params.password == '') {
+					uni.showToast({
+						title: '请输入密码',
+						icon: 'none'
+					})
+					return
+				}
+				if(this.okpassword == '') {
+					uni.showToast({
+						title: '请输入确认密码',
+						icon: 'none'
+					})
+					return
+				}
+				if(this.okpassword != this.params.password) {
+					uni.showToast({
+						title: '两次密码不一致',
+						icon: 'none'
+					})
+					return
+				}
+				let res = this.$request.request({
+					method: 'post',
+					url: '/v1/user/forgetPwd',
+					data: this.params
+				})
+				if(res.code == 1) {
+					uni.showToast({
+						title: '操作成功',
+						icon: 'none'
+					})
+					uni.navigateTo({
+						url:'./login'
+					})
+				}else {
+					uni.showToast({
+						title: '操作失败',
+						icon: 'none'
+					})
+				}
+			}
 		}
 	}
 </script>

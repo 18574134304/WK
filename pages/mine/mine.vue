@@ -19,11 +19,11 @@
 				<image src="../../static/mine/mine7.png" mode=""></image>
 				<view>车队管理</view>
 			</view>
-			<view class="title-item">
+			<view class="title-item" @click="toPath('../scriptDetails/playManage')">
 				<image src="../../static/mine/mine4.png" mode=""></image>
 				<view>剧本管理</view>
 			</view>
-			<view class="title-item">
+			<view class="title-item" @click="toPath('withdrawal')">
 				<image src="../../static/mine/mine5.png" mode=""></image>
 				<view>收入管理</view>
 			</view>
@@ -113,6 +113,7 @@
 			},
 			// 四个tab跳转
 			toPath(path) {
+				console.log(path)
 				uni.navigateTo({
 					url: path
 				})

@@ -6,18 +6,18 @@
 			<view class="title">登录</view>
 			<view class="item">
 				<view class="text">账号</view>
-				<input class="ipt" type="number" maxlength="11" placeholder="请输入手机号" />
+				<input v-model="params.mobile" class="ipt" type="number" maxlength="11" placeholder="请输入手机号" />
 
 			</view>
 			<view class="item" v-if="pageName=='code'">
 				<view class="text">验证码</view>
-				<input class="ipt" type="number" placeholder="请输入验证码" />
-				<view class="code" v-if="canDjs" >获取验证码</view>
+				<input v-model="params.captcha" class="ipt" type="number" placeholder="请输入验证码" />
+				<view class="code" v-if="canDjs"  @click="getCode">获取验证码</view>
 				<view class="code" v-else>{{num}}秒后重新发送</view>
 			</view>
 			<view class="item" v-if="pageName=='password'">
 				<view class="text">密码</view>
-				<input class="ipt" type="password" maxlength="12" placeholder="请输入密码(6~12位)" @confirm="login" />
+				<input v-model="params.password" class="ipt" type="password" maxlength="12" placeholder="请输入密码(6~12位)" @confirm="login" />
 			</view>
 
 			<view class="to-box">
@@ -39,6 +39,121 @@
 				pageName:'code',
 				// 显示 发送验证码 还是倒计时
 				canDjs: true,
+				params: {
+					mobile: '',
+					captcha: '',
+					password: '',
+					userType: '1',
+					event: ''
+				},
+				num: 60,
+				timer: null
+			}
+		},
+		methods: {
+			// 倒计时
+			yzmDjs() {
+				clearInterval(this.timer)
+			    
+			    if (this.num == 0) {
+					 this.canDjs = true;
+					 this.num = 60;
+			    }else {
+					
+					this.canDjs = false
+					this.timer = setTimeout(() => {
+						this.num--;
+						this.yzmDjs();
+					}, 1000)
+				}
+			  },
+			  // 获取验证码
+			async getCode() {
+				if(this.params.mobile == '') {
+					uni.showToast({
+						title: '请输入手机号',
+						icon: 'none'
+					})
+					return
+				}
+				
+				this.yzmDjs()
+				this.params.event = 'login'
+				let {data: res} = await this.$request.request({
+					url: '/v1/sms/aliSend',
+					method: 'post',
+					data: this.params
+				})
+				if(res.code == 1) {
+					this.params.captcha == res.data
+				}else {
+					uni.showToast({
+						title: '验证码获取失败',
+						icon: 'none'
+					})
+				}
+			},
+			// 登录
+			async login() {
+				if(this.params.mobile == '') {
+					uni.showToast({
+						title: '请输入手机号',
+						icon: 'none'
+					})
+					return
+				}
+				if(this.pageName=='code') {
+					if(this.params.code == '') {
+						uni.showToast({
+							title: '请输入验证码',
+							icon: 'none'
+						})
+						return
+					}
+					let {data: res} = await this.$request.request({
+						url: '/v1/user/verificationCodeLogin',
+						method: 'post',
+						data: this.params
+					})
+					if(res.code == 1) {
+						uni.setStorage({key:'token',data:res.data.token})
+						uni.setStorage({key: 'userInfo',data: res.data.userVo})
+						uni.switchTab({
+							url: '../index/index'
+						})
+					}else {
+						uni.showToast({
+							title: '登录失败',
+							icon: 'none'
+						})
+					}
+				}
+				if(this.pageName=='password') {
+					if(this.params.password == '') {
+						uni.showToast({
+							title: '请输入密码',
+							icon: 'none'
+						})
+						return
+					}
+					let {data: res} = await this.$request.request({
+						url: '/v1/user/login',
+						method: 'post',
+						data: this.params
+					})
+					if(res.code == 1) {
+						uni.setStorage({key:'token',data:res.data.token})
+						uni.setStorage({key: 'userInfo',data: res.data.userVo})
+						uni.switchTab({
+							url: '../index/index'
+						})
+					}else {
+						uni.showToast({
+							title: '登录失败',
+							icon: 'none'
+						})
+					}
+				}
 			}
 		}
 	}

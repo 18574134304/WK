@@ -70,9 +70,11 @@
 				nowWeek: '',
 				show: false,
 				mode: 'date',
+				list: []
 			}
 		},
 		mounted() {
+			this.getData()
 			let nowDate = new Date()
 			let date = {
 				year: nowDate.getFullYear(),
@@ -83,6 +85,13 @@
 			this.setNowTimes()
 		},
 		methods: {
+			async getData() {
+				let res = await this.$request.request({
+					method: 'post',
+					url: '/zhongben-app/api/v1/carTeam/queryFutureDate'
+				})
+				console.log(res)
+			},
 			// 计算星期
 			setNowTimes() {
 				let myDate = new Date()
