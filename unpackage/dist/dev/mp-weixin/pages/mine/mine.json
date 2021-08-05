@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "title-block": "/components/title-block/title-block",
+    "u-modal": "/uview-ui/components/u-modal/u-modal"
+  }
+}

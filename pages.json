@@ -42,6 +42,8 @@
 				}
 			}
 		},
+		// 首页中页面开始
+		
 		// 新建车队页面
 		{
 			"path": "pages/index/newTeam",
@@ -69,6 +71,100 @@
 				}
 			}
 		},
+		// 待办事项
+		{
+			"path": "pages/index/pendList/pendList",
+			"style": {
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "待办事项"
+			}
+		},
+		{
+			"path": "pages/index/pendList/systemMessage",
+			"style": {
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "系统消息"
+			}
+		},
+		// 门店管理
+		{
+			"path": "pages/index/shopManage/shopManage",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		// 门店资料管理
+		{
+			"path": "pages/index/shopManage/children/shopInfo",
+			"style": {
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "门店资料"
+			}
+		},
+		// 门店名称
+		{
+			"path": "pages/index/shopManage/children/shopName",
+			"style": {
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "门店名称"
+			}
+		},
+		// 门店电话
+		{
+			"path": "pages/index/shopManage/children/shopMobile/shopMobile",
+			"style": {
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "门店电话"
+			}
+		},
+		// 添加门店电话
+		{
+			"path": "pages/index/shopManage/children/shopMobile/addMobile",
+			"style": {
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "添加电话"
+			}
+		},
+		// 门店地址
+		{
+			"path": "pages/index/shopManage/children/shopAddress",
+			"style": {
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "门店地址"
+			}
+		},
+		// 营业时间
+		{
+			"path": "pages/index/shopManage/children/shopTime",
+			"style": {
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "营业时间"
+			}
+		},
+		// 房间管理
+		{
+			"path": "pages/index/shopManage/children/roomManage",
+			"style": {
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "房间管理"
+			}
+		},
+		// 剧本管理页面
+		{
+			"path": "pages/scriptDetails/playManage",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		// 首页中页面 结束
+		
+		
 		// 设置页面
 		{
 			"path": "pages/mine/setup",

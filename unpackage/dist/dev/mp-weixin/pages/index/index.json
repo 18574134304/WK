@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "title-block": "/components/title-block/title-block",
+    "list-item": "/components/listItem",
+    "tab-box": "/components/tabBox"
+  }
+}

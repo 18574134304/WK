@@ -1,0 +1,65 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/content/content",
+    "pages/mine/mine",
+    "pages/index/newTeam",
+    "pages/index/checkPlay",
+    "pages/mine/carlist",
+    "pages/index/pendList/pendList",
+    "pages/index/pendList/systemMessage",
+    "pages/index/shopManage/shopManage",
+    "pages/index/shopManage/children/shopInfo",
+    "pages/index/shopManage/children/shopName",
+    "pages/index/shopManage/children/shopMobile/shopMobile",
+    "pages/index/shopManage/children/shopMobile/addMobile",
+    "pages/index/shopManage/children/shopAddress/shopAddress",
+    "pages/index/shopManage/children/shopTime",
+    "pages/index/shopManage/children/roomManage",
+    "pages/mine/setup",
+    "pages/mine/orderDetauls",
+    "pages/mine/aboutMy",
+    "pages/mine/editPassword",
+    "pages/mine/bindingMobile",
+    "pages/mine/dmStration",
+    "pages/mine/dmInfo",
+    "pages/mine/sale",
+    "pages/mine/ranking",
+    "pages/mine/scriptRanking",
+    "pages/scriptDetails/details"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "玩咖商家版",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#5F6672",
+    "selectedColor": "#09BCAF",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/tabbar/index.png",
+        "selectedIconPath": "static/tabbar/index-active.png",
+        "text": "当日"
+      },
+      {
+        "pagePath": "pages/content/content",
+        "iconPath": "static/tabbar/content.png",
+        "selectedIconPath": "static/tabbar/content-active.png",
+        "text": "车队预约"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "iconPath": "static/tabbar/mine.png",
+        "selectedIconPath": "static/tabbar/mine-active.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

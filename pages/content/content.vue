@@ -1,6 +1,6 @@
 <template>
 	<view id="content">
-		<title-block></title-block>
+		<title-block color="#fff"></title-block>
 		<!-- 头部搜索框 -->
 		<view class="header">
 			<view class="search">

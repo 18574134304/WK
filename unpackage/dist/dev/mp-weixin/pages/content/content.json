@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "title-block": "/components/title-block/title-block",
+    "u-calendar": "/uview-ui/components/u-calendar/u-calendar",
+    "list-item": "/components/listItem",
+    "tab-box": "/components/tabBox"
+  }
+}

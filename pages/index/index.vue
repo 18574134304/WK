@@ -1,6 +1,6 @@
 <template>
 	<view class="index">
-		<title-block></title-block>
+		<title-block color="rgba(85, 255, 242, 0.12)"></title-block>
 		<!-- 头部 -->
 		<view class="header">
 			<view class="h1">
@@ -67,15 +67,15 @@
 				active: 0,
 				htList: [{
 						text: '待办事项',
-						link: '#'
+						link: './pendList/pendList'
 					},
 					{
 						text: '门店管理',
-						link: '#'
+						link: './shopManage/shopManage'
 					},
 					{
 						text: '剧本管理',
-						link: '#'
+						link: '../scriptDetails/playManage'
 					},
 					{
 						text: '收入管理',
@@ -96,7 +96,6 @@
 <style lang="scss" scoped>
 	.index {
 		background: #F8F8F8;
-
 		.header {
 			box-sizing: border-box;
 			width: 100%;
@@ -165,7 +164,6 @@
 		.content {
 			width: 750rpx;
 			background: #F8F8F8;
-			padding-bottom: 20rpx;
 
 			.card {
 				display: flex;
