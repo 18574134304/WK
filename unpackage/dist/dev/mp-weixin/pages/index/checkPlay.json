@@ -1,6 +1,7 @@
 {
   "usingComponents": {
     "title-block": "/components/title-block/title-block",
+    "u-popup": "/uview-ui/components/u-popup/u-popup",
     "jb-item": "/components/JbItem"
   }
 }

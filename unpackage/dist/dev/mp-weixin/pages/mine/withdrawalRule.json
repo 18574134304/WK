@@ -1,4 +1,9 @@
 {
   "navigationBarTitleText": "提现规则",
+<<<<<<< HEAD
   "navigationBarBackgroundColor": "#FFFFFF"
+=======
+  "navigationBarBackgroundColor": "#FFFFFF",
+  "usingComponents": {}
+>>>>>>> master
 }

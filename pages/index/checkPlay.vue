@@ -16,35 +16,49 @@
 		</view>
 		<view class="l-title">
 			<text class="t">综合</text>
-			<view class="right">
+			<view class="right" @click="showPup=true">
 				<text>筛选</text>
 				<image src="../../static/index/checkPlay/sx-icon.png"></image>
 			</view>
 		</view>
 		<view class="j-list">
-			<jb-item @goDetail="goDetail"></jb-item>
+			<jb-item></jb-item>
 		</view>
+
+		<!-- 筛选弹窗 -->
+		<u-popup v-model="showPup" mode="right" border-radius="14" width="75%">
+			<view class="p-popup">
+				<scroll-view scroll-y="true" style="height: 100%;">
+					<view class="p-cate" v-for="item in 5">
+						<view class="p-title">题材</view>
+						<view class="cate-list">
+							<view class="c-item" v-for="item in 11">恐怖</view>
+						</view>
+					</view>
+				</scroll-view>
+			</view>
+			<view class="btnG">
+				<view class="btn">清空</view>
+				<view class="btn p-active">确定</view>
+			</view>
+		</u-popup>
 	</view>
 </template>
 
 <script>
 	import JbItem from '../../components/JbItem.vue'
 	export default {
-		components:{
+		components: {
 			JbItem
 		},
 		data() {
 			return {
+				showPup: false,
 				active: null,
 				peopleList: ['<=4人', '5人', '6人', '7人', '8人', '9人', '10人', '10人+']
 			}
 		},
-		methods:{
-			goDetail(){
-				uni.navigateTo({
-					url:"../scriptDetails/details"
-				})
-			}
+		methods: {
 		}
 	}
 </script>
@@ -157,5 +171,61 @@
 		.j-list {
 			width: 100%;
 		}
+	}
+	
+	.p-popup {
+		box-sizing: border-box;
+		padding: 30rpx;
+		padding-right: 10rpx;
+		height: 92%;
+		.p-cate {
+			.p-title {
+				font-size: 28rpx;
+				color: #333;
+				font-weight: 600;
+				margin-bottom: 10rpx;
+			}
+	
+			.cate-list {
+				display: flex;
+				flex-wrap: wrap;
+				padding: 20rpx 0 10rpx;
+	
+				.c-item {
+					width: calc((100% - 45rpx) / 3);
+					margin-right: 15rpx;
+					height: 60rpx;
+					background-color: #f2f2f2;
+					border-radius: 30rpx;
+					text-align: center;
+					line-height: 60rpx;
+					color: #333;
+					font-size: 24rpx;
+					margin-bottom: 20rpx;
+				}
+			}
+		}
+	
+	}
+	
+	.btnG {
+		display: flex;
+		justify-content: space-between;
+		padding: 0 20rpx 20rpx;
+	
+		.btn {
+			width: 240rpx;
+			height: 76rpx;
+			border-radius: 38rpx;
+			text-align: center;
+			line-height: 76rpx;
+			font-size: 24rpx;
+			background-color: #f2f2f2;
+		}
+	}
+	
+	.p-active {
+		background-color: #00BAAD !important;
+		color: #fff;
 	}
 </style>
