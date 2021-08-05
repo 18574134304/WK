@@ -1,9 +1,14 @@
 <template>
 	<view class="dm-stration">
+		<title-block></title-block>
 		<view class="dm-header">
-			<image @click="toBack" src="../../static/mine/zuo1.png" mode=""></image>
+			<view class="img1">
+				<image @click="toBack" src="../../static/mine/zuo1.png" mode=""></image>
+			</view>
 			<view class="">DM管理</view>
-			<navigator url="dmInfo"><image src="../../static/index/h-a.png" mode=""></image></navigator>
+			<view class="img2">
+				<navigator url="dmInfo"><image src="../../static/index/h-a.png" mode=""></image></navigator>
+			</view>
 		</view>
 		<view class="dm-list" v-for="item in 2">
 			<view class="list-item">
@@ -107,15 +112,24 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			padding: 60rpx 32rpx 18rpx 46rpx;
+			padding: 0 32rpx;
+			height: 88rpx;
 			background-color: #FFFFFF;
-			image{
+			.img1{
 				width: 27rpx;
 				height: 37rpx;
+				image{
+					width: 27rpx;
+					height: 37rpx;
+				}
 			}
-			image:last-child{
+			.img2{
 				width: 40rpx;
 				height: 40rpx;
+				image{
+					width: 40rpx;
+					height: 40rpx;
+				}
 			}
 		}
 		

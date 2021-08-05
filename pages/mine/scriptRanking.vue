@@ -1,5 +1,6 @@
 <template>
 	<view class="ranking">
+		<title-block></title-block>
 		<view class="ranking-header">
 			<image class="ranking-bg" src="../../static/mine/ranking.png" mode=""></image>
 			<view class="sale-title">

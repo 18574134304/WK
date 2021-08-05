@@ -23,6 +23,7 @@
 	.edit-pwd{
 		position: relative;
 		height: calc(100vh - 88rpx);
+		background-color: #FFFFFF;
 		.pwd-item{
 			margin: 0 32rpx;
 			height: 106rpx;
