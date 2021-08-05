@@ -10590,6 +10590,301 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 /***/ }),
 
+/***/ 397:
+/*!************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wkn/common/request.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 19));
+var _index = _interopRequireDefault(__webpack_require__(/*! @/myp-request/index.js */ 398));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}
+var token = '';
+// uni.clearStorageSync();	
+// token = uni.getStorageSync('token')
+// if(token) {
+console.log('touken', uni.getStorageSync('token'));
+// }
+// 设置 通用的 baseUrl 以及 header
+var config = {
+  baseUrl: 'http://47.94.232.145:8082/zhongben-app/',
+  header: {
+    "Content-Type": "application/json",
+    "Authorization": uni.getStorageSync('token') },
+
+  // 取消请求时的提示信息配置，自己根据自己的需要设置字段以及内容
+  // 全局有效，可以在api的options中进行单独覆盖配置
+  cancelReject: {
+    text: '请求未通过验证,检查是否登录或者数据正确',
+    type: 'warning' },
+
+  // 请求失败时的提示信息配置，自己根据自己的需要设置字段以及内容
+  // 全局有效，可以在api的options中进行单独覆盖配置
+  // 您可以不提供该配置，当failReject为null的时候，会自动reject错误信息(uni.request的fail错误信息)
+  failReject: {
+    type: 'error',
+    text: "网络异常，请求发送失败，请检查网络" } };
+
+
+
+// 设置自己的请求拦截器，必须加上 `async`
+// 请求前的拦截，比如是否登录/过期/刷新token/...
+var reqInterceptor = /*#__PURE__*/function () {var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(options) {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:return _context.abrupt("return",
+
+
+
+
+
+            options);case 1:case "end":return _context.stop();}}}, _callee);}));return function reqInterceptor(_x) {return _ref.apply(this, arguments);};}();
+
+
+// 设置自己的响应拦截器
+// 统一对返回的数据进行整理，方便接口统一使用
+var resInterceptor = function resInterceptor(response) {var conf = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  // todo your logic, must return the data u needed. it will be resolved.
+  // if u want to reject, u could return {mypReqToReject:true,...other k-v}
+  // 必须返回你需要处理的数据，将会进入resolve（then中处理）
+  // 如果需要reject，需要设置mypReqToReject:true，还可以携带自己定义的任何提示内容（catch中处理）
+  return response;
+};
+
+// 实例化请求器
+// 您可以根据需要实例化多个请求器
+var req = new _index.default(config, reqInterceptor, resInterceptor);var _default =
+
+req;exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 398:
+/*!***************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wkn/myp-request/index.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 19));var _common = __webpack_require__(/*! ./common.js */ 399);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;}
+
+// attention: the success/fail/complete handler here for global or custom config in request is just for uni.request's success/fail/complete.
+// it's not meaning the status of 200-300. status 400 from server is also success in uni.request
+var Request = /*#__PURE__*/function () {
+  function Request() {var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};var reqInterceptor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;var resInterceptor = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;var successHandler = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;var failHandler = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;var completeHandler = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : null;_classCallCheck(this, Request);
+    // base
+    this.baseUrl = config.baseUrl;
+    if (config.header) {
+      // we must parse deep-copy header, then it can not be influenced by the-before request
+      this.header = Object.assign({}, config.header); // JSON.parse(JSON.stringify(config.header))
+    } else {
+      this.header = { "Content-Type": "application/json;charset=UTF-8" };
+    }
+    // this.header = config.header || {"Content-Type": "application/json;charset=UTF-8"},
+    // global callback for success/fail/complete. They are also response interceptors.
+    this.success = successHandler;
+    this.fail = failHandler;
+    this.complete = completeHandler;
+    // interceptors
+    this.requestInterceptor = reqInterceptor;
+    this.responseInterceptor = resInterceptor;
+    if (config.cancelReject && typeof config.cancelReject === 'object') {
+      this.cancelReject = Object.assign({}, config.cancelReject);
+    } else {
+      this.cancelReject = { text: '请求未通过验证,检查是否登录或者数据正确', type: 'warning' };
+    }
+    if (config.failReject && typeof config.failReject === 'object') {
+      this.failReject = Object.assign({}, config.failReject);
+    } else {
+      // when null fail reject, it will reject the error info of fail
+      this.failReject = null;
+    }
+  }
+  // type: request/upload/download.
+  // the success/fail/complete handler will not override the global, it will just call after global
+  _createClass(Request, [{ key: "request", value: function () {var _request = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(options) {var successHandler,failHandler,completeHandler,task,type,config,that,_args = arguments;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:successHandler = _args.length > 1 && _args[1] !== undefined ? _args[1] : null;failHandler = _args.length > 2 && _args[2] !== undefined ? _args[2] : null;completeHandler = _args.length > 3 && _args[3] !== undefined ? _args[3] : null;
+                task = options.task || false;
+                type = options.type || "request";
+                // delete options.task
+                config = null;_context.prev = 6;_context.next = 9;return (
+
+
+                  (0, _common.requestConfig)(this, options));case 9:config = _context.sent;_context.next = 15;break;case 12:_context.prev = 12;_context.t0 = _context["catch"](6);return _context.abrupt("return",
+
+
+                Promise.reject(_context.t0));case 15:if (!(
+
+
+                !config || typeof config != 'object')) {_context.next = 17;break;}return _context.abrupt("return",
+
+                Promise.reject(this.cancelReject));case 17:
+
+                config.header["Authorization"] = uni.getStorageSync('token');
+                // u could return a mypReqToCancel with cancelReject
+                if (!config.mypReqToCancel) {_context.next = 22;break;}if (!(
+                config.cancelReject && typeof config.cancelReject === 'object')) {_context.next = 21;break;}return _context.abrupt("return",
+                Promise.reject(config.cancelReject));case 21:return _context.abrupt("return",
+
+                Promise.reject(this.cancelReject));case 22:
+
+                if (config.cancelReject) {
+                  delete config.cancelReject;
+                }
+                // console.log(config)
+                that = this;if (!
+                task) {_context.next = 38;break;}
+                config["success"] = function (response) {
+                  if (that.responseInterceptor) {
+                    that.responseInterceptor(response, config);
+                  }
+                  that.success && that.success(response);
+                  successHandler && successHandler(response);
+                };
+                config["fail"] = function (response) {
+                  that.fail && that.fail(response);
+                  failHandler && failHandler(response);
+                };
+                config["complete"] = function (response) {
+                  that.complete && that.complete(response);
+                  completeHandler && completeHandler(response);
+                };if (!(
+                type === "request")) {_context.next = 32;break;}return _context.abrupt("return",
+                uni.request(config));case 32:if (!(
+                type === "upload")) {_context.next = 36;break;}return _context.abrupt("return",
+                uni.uploadFile(config));case 36:return _context.abrupt("return",
+
+                uni.downloadFile(config));case 37:return _context.abrupt("return");case 38:return _context.abrupt("return",
+
+
+
+                new Promise(function (resolve, reject) {
+                  config["success"] = function (response) {
+                    var _res = null;
+                    if (that.responseInterceptor) {
+                      _res = that.responseInterceptor(response, config);
+                    }
+                    that.success && that.success(response);
+                    successHandler && successHandler(response);
+                    // we use a tag to reject
+                    // we allow return null response
+                    if (_res && _res.mypReqToReject) {
+                      delete _res.mypReqToReject;
+                      reject(_res);
+                    } else {
+                      resolve(_res);
+                    }
+                  };
+                  config["fail"] = function (response) {
+                    that.fail && that.fail(response);
+                    failHandler && failHandler(response);
+                    // need to handle fail reject
+                    if (config.failReject && typeof config.failReject === 'object') {
+                      reject(config.failReject);
+                    } else {
+                      if (that.failReject) {
+                        reject(that.failReject);
+                      } else {
+                        // reject the error
+                        reject(response);
+                      }
+                    }
+                  };
+                  config["complete"] = function (response) {
+                    that.complete && that.complete(response);
+                    completeHandler && completeHandler(response);
+                  };
+                  // console.log(config)
+                  if (type === "request") {
+                    uni.request(config);
+                  } else if (type === "upload") {
+                    uni.uploadFile(config);
+                  } else {
+                    uni.downloadFile(config);
+                  }
+                }));case 39:case "end":return _context.stop();}}}, _callee, this, [[6, 12]]);}));function request(_x) {return _request.apply(this, arguments);}return request;}() }]);return Request;}();exports.default = Request;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 399:
+/*!****************************************************************!*\
+  !*** C:/Users/Administrator/Desktop/wkn/myp-request/common.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.requestConfig = requestConfig;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 19));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};} // 执行请求拦截,未发送请求之前重新构造请求参数/数据
+// 内容应该孤立存在,修改不会互相影响
+function requestConfig(_x, _x2) {return _requestConfig.apply(this, arguments);}function _requestConfig() {_requestConfig = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(ins, options) {var header, baseUrl, config, _cg, _options, type;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+            // 每一个请求的数据应该孤立/隔离
+            // 具体请求覆盖掉请求器的配置,而不是修改请求器的配置
+            // JSON.parse(JSON.stringify(options.header || ins.header))
+            // 注意: 这个地方header默认采用了整体取代的方式,options设置了header,ins中的header会整个丢弃
+            header = Object.assign({}, options.header || ins.header);
+            baseUrl = options.baseUrl || ins.baseUrl;
+            // config
+            config = {
+              url: baseUrl + options.url,
+              header: header };
+
+            _cg = null;if (!
+            ins.requestInterceptor) {_context.next = 22;break;}_context.prev = 5;
+
+
+
+            _options = JSON.parse(JSON.stringify(Object.assign({}, options, config)));
+            // _cg is tha same object of _options
+            _context.next = 9;return ins.requestInterceptor(_options);case 9:_cg = _context.sent;_context.next = 15;break;case 12:_context.prev = 12;_context.t0 = _context["catch"](5);return _context.abrupt("return",
+
+
+            false);case 15:if (!(
+
+
+            !_cg || typeof _cg !== 'object')) {_context.next = 17;break;}return _context.abrupt("return",
+            false);case 17:if (!
+
+
+            _cg.mypReqToCancel) {_context.next = 19;break;}return _context.abrupt("return",
+            _cg);case 19:
+
+            // we could also change the url and header in interceptors
+            config.url = _cg.url;
+            config.header = _cg.header;
+            // we could also config the fail reject info in options
+            if (_cg.failReject && typeof _cg.failReject === 'object') {
+              config.failReject = _cg.failReject;
+            }case 22:
+
+            type = options.type || "request";
+            // config detail, we do not use options directly => remove unneeded props
+            if (type === "request") {
+              config["data"] = _cg.data || {};
+              config["method"] = _cg.method || "GET";
+              config["dataType"] = _cg.dataType || "json";
+              config["responseType"] = _cg.responseType || "text";
+            } else if (type === "upload") {
+              config['filePath'] = _cg.filePath;
+              config['name'] = _cg.name;
+              config["method"] = _cg.method || "POST";
+              config['formData'] = _cg.formData || {};
+              // fileType for alipay
+              config["fileType"] = _cg.fileType || "image";
+              // reinforce the Content-Type. 
+              // TODO: needed to reinforce?
+              // config.header['Content-Type'] = 'multipart/form-data;charset=UTF-8'
+              delete config.header['Content-Type'];
+            } // download need nothing else to config
+            // console.log(config)
+            return _context.abrupt("return", config);case 25:case "end":return _context.stop();}}}, _callee, null, [[5, 12]]);}));return _requestConfig.apply(this, arguments);}
+
+
+function _isPromise(obj) {
+  return obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
+}
+
+/***/ }),
+
 /***/ 4:
 /*!*****************************************************!*\
   !*** C:/Users/Administrator/Desktop/wkn/pages.json ***!

@@ -28,6 +28,9 @@
     "pages/mine/sale",
     "pages/mine/ranking",
     "pages/mine/scriptRanking",
+    "pages/mine/myWallet",
+    "pages/mine/withdrawal",
+    "pages/mine/withdrawalRule",
     "pages/scriptDetails/details"
   ],
   "subPackages": [],
@@ -63,6 +66,5 @@
       }
     ]
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap.json"
+  "usingComponents": {}
 }

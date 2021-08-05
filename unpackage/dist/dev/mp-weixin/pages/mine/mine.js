@@ -255,8 +255,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 var _default =
 {
   data: function data() {
@@ -266,6 +264,11 @@ var _default =
 
   },
   methods: {
+    imgTo: function imgTo() {
+      uni.navigateTo({
+        url: './setup' });
+
+    },
     // 四个tab跳转
     toPath: function toPath(path) {
       uni.navigateTo({

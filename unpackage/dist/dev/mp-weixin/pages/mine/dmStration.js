@@ -95,6 +95,9 @@ __webpack_require__.r(__webpack_exports__);
 var components
 try {
   components = {
+    titleBlock: function() {
+      return __webpack_require__.e(/*! import() | components/title-block/title-block */ "components/title-block/title-block").then(__webpack_require__.bind(null, /*! @/components/title-block/title-block.vue */ 274))
+    },
     uModal: function() {
       return __webpack_require__.e(/*! import() | uview-ui/components/u-modal/u-modal */ "uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-modal/u-modal.vue */ 302))
     }
@@ -165,6 +168,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
+//
+//
+//
+//
 //
 //
 //
