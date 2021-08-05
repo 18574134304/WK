@@ -2,7 +2,25 @@
 	"easycom": {
 		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
 	},
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages// 首页
+		// 登录
+		{
+			"path": "pages/login/login",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		// 忘记密码
+		{
+			"path": "pages/login/forget-password",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
 		// 首页
 		{
 			"path": "pages/index/index",

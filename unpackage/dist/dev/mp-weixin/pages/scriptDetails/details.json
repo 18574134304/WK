@@ -1,3 +1,5 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "u-modal": "/uview-ui/components/u-modal/u-modal"
+  }
 }

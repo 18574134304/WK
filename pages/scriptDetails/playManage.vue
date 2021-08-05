@@ -19,7 +19,7 @@
 				<view class="t-item" :class="{active:typeActive===1}" @click="typeClick(1)">平台剧本库</view>
 				<view class="t-item" :class="{active:typeActive===2}" @click="typeClick(2)">店铺剧本库</view>
 			</view>
-			<view class="right">
+			<view class="right" @click="showPup=true">
 				<text>筛选</text>
 				<image src="../../static/index/checkPlay/sx-icon.png"></image>
 			</view>
@@ -29,20 +29,20 @@
 				<view class="tab-item" :class="{active:index===tabActive}" v-for="(item,index) in tabList" :key="index"
 					@click="tabActive=index">{{item}}</view>
 			</view>
-			<jb-item>
-				<view class="btn-group" slot="btn-Group">
-					<view class="tn t1" v-if="typeActive===1" @click="scClick('收录剧本')">
+			<jb-item @goDetail="goDetail">
+				<view class="btn-group" slot="btn-Group" :key="typeActive">
+					<!-- <view class="tn t1" v-if="typeActive===1" @click.stop="scClick('收录剧本')">
 						<image src="../../static/scriptDetails/sc-icon.png"></image>
 						<text>收录</text>
-					</view>
-					<!-- <view class="tn t1" v-if="typeActive===1" @click="scClick('上架剧本')">
+					</view> -->
+					<!-- <view class="tn t1" v-if="typeActive===1" @click.stop="scClick('上架剧本')">
 						<image src="../../static/scriptDetails/upload-icon.png"></image>
 						<text>上架</text>
 					</view> -->
-					<!-- <view class="tn t2" @click="downFlag=true" v-if="typeActive===1" >
+					<view class="tn t2" @click.stop="downFlag=true" v-if="typeActive===1">
 						<image src="../../static/scriptDetails/down-icon.png"></image>
 						<text>下架</text>
-					</view> -->
+					</view>
 					<view class="tn t3" v-else>
 						<view class="t-i1" @click.stop="scClick('上架剧本')">
 							<image src="../../static/scriptDetails/upload-icon.png"></image>
@@ -56,10 +56,9 @@
 				</view>
 			</jb-item>
 		</view>
-		
+
 		<!-- 收录、上架、编辑剧本弹框 -->
-		<u-modal width="80%" v-model="scFlag" title="收录剧本" :show-cancel-button="true"
-			confirm-color="#09BCAF">
+		<u-modal width="80%" v-model="scFlag" title="收录剧本" :show-cancel-button="true" confirm-color="#09BCAF">
 			<view class="text-box">
 				<view class="tx-item">
 					<text class="label">剧本名称：</text>
@@ -71,17 +70,35 @@
 				</view>
 			</view>
 		</u-modal>
-		
+
 		<!-- 下架剧本 -->
-		<u-modal v-model="downFlag" :show-title="false" @confirm="downConfirm"
-			:show-cancel-button="true" confirm-color="#09BCAF">
+		<u-modal v-model="downFlag" :show-title="false" @confirm="downConfirm" :show-cancel-button="true"
+			confirm-color="#09BCAF">
 			<view class="slot-content">
 				<rich-text :nodes="content"></rich-text>
 			</view>
 		</u-modal>
-		
+
+		<!-- 下架剧本失败 -->
 		<u-modal v-model="downErrFlag" :show-title="false" confirm-color="#09BCAF" content="该剧本有参与的车队无法进行下架"></u-modal>
-		
+
+		<!-- 筛选弹窗 -->
+		<u-popup v-model="showPup" mode="right" border-radius="14" width="75%">
+			<view class="p-popup">
+				<scroll-view scroll-y="true" style="height: 100%;">
+					<view class="p-cate" v-for="item in tagList">
+						<view class="p-title">题材</view>
+						<view class="cate-list">
+							<view class="c-item" v-for="item1 in item">{{item1.name}}</view>
+						</view>
+					</view>
+				</scroll-view>
+			</view>
+			<view class="btnG">
+				<view class="btn">清空</view>
+				<view class="btn p-active">确定</view>
+			</view>
+		</u-popup>
 	</view>
 </template>
 
@@ -93,6 +110,8 @@
 		},
 		data() {
 			return {
+				// 筛选
+				showPup: false,
 				// 人数
 				active: null,
 				peopleList: ['<=4人', '5人', '6人', '7人', '8人', '9人', '10人', '10人+'],
@@ -106,15 +125,43 @@
 				// 平台剧本下的分类 选中
 				shopActive: 0,
 				// 收录剧本
-				scFlag:false,
+				scFlag: false,
 				// 弹窗标题
-				scContent:'收录剧本',
+				scContent: '收录剧本',
 				// 下架弹窗
-				downFlag:false,
+				downFlag: false,
 				// 下架弹窗 提示文本
 				content: `是否确认下架该剧本<br>下架后用户将无法在本地看到该剧本`,
 				// 有车队无法下架弹窗
-				downErrFlag:false
+				downErrFlag: false,
+				tagList: [
+					[{
+						name: '恐怖',
+						id: 1
+					}, ],
+					[{
+							name: '恐怖',
+							id: 1
+						},
+						{
+							name: '恐怖',
+							id: 1
+						},
+						{
+							name: '恐怖',
+							id: 1
+						},
+						{
+							name: '恐怖',
+							id: 1
+						},
+						{
+							name: '恐怖',
+							id: 1
+						},
+					],
+				],
+				tagIds: [],
 			}
 		},
 		methods: {
@@ -123,13 +170,19 @@
 				this.typeActive = active
 			},
 			// 点击弹起收录剧本弹窗
-			scClick(content){
+			scClick(content) {
 				this.scFlag = true
 				this.scContent = content
 			},
 			// 下架剧本 弹窗确定
-			downConfirm(){
+			downConfirm() {
 				this.downErrFlag = true
+			},
+			// 点击剧本
+			goDetail() {
+				uni.navigateTo({
+					url: "../scriptDetails/details"
+				})
 			}
 		},
 		computed: {
@@ -360,19 +413,21 @@
 			}
 		}
 	}
-	
-		.slot-content {
-			padding: 48rpx 0;
-			font-size: 32rpx;
-			text-align: center;
-			color: #333;
-			font-weight: 500;
-		}
+
+	.slot-content {
+		padding: 48rpx 0;
+		font-size: 32rpx;
+		text-align: center;
+		color: #333;
+		font-weight: 500;
+	}
+
 	.text-box {
 		padding: 30rpx 30rpx 0;
 		font-size: 28rpx;
 		color: #666;
-		.tx-item{
+
+		.tx-item {
 			display: flex;
 			width: 100%;
 			height: 45rpx;
@@ -383,9 +438,67 @@
 			font-family: "苹方-简";
 			font-weight: normal;
 			margin-bottom: 20rpx;
-			.val{
+
+			.val {
 				flex: 1;
 			}
 		}
+	}
+
+	.p-popup {
+		box-sizing: border-box;
+		padding: 30rpx;
+		padding-right: 10rpx;
+		height: 92%;
+
+		.p-cate {
+			.p-title {
+				font-size: 28rpx;
+				color: #333;
+				font-weight: 600;
+				margin-bottom: 10rpx;
+			}
+
+			.cate-list {
+				display: flex;
+				flex-wrap: wrap;
+				padding: 20rpx 0 10rpx;
+
+				.c-item {
+					width: calc((100% - 45rpx) / 3);
+					margin-right: 15rpx;
+					height: 60rpx;
+					background-color: #f2f2f2;
+					border-radius: 30rpx;
+					text-align: center;
+					line-height: 60rpx;
+					color: #333;
+					font-size: 24rpx;
+					margin-bottom: 20rpx;
+				}
+			}
+		}
+
+	}
+
+	.btnG {
+		display: flex;
+		justify-content: space-between;
+		padding: 0 20rpx 20rpx;
+
+		.btn {
+			width: 240rpx;
+			height: 76rpx;
+			border-radius: 38rpx;
+			text-align: center;
+			line-height: 76rpx;
+			font-size: 24rpx;
+			background-color: #f2f2f2;
+		}
+	}
+
+	.p-active {
+		background-color: #00BAAD !important;
+		color: #fff;
 	}
 </style>

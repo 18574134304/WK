@@ -97,6 +97,9 @@ try {
   components = {
     titleBlock: function() {
       return __webpack_require__.e(/*! import() | components/title-block/title-block */ "components/title-block/title-block").then(__webpack_require__.bind(null, /*! @/components/title-block/title-block.vue */ 274))
+    },
+    uPopup: function() {
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-popup/u-popup */ "uview-ui/components/u-popup/u-popup").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-popup/u-popup.vue */ 333))
     }
   }
 } catch (e) {
@@ -134,6 +137,10 @@ var render = function() {
 
       _vm.active = index
     }
+
+    _vm.e2 = function($event) {
+      _vm.showPup = true
+    }
   }
 }
 var recyclableRender = false
@@ -168,7 +175,25 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var JbItem = function JbItem() {__webpack_require__.e(/*! require.ensure | components/JbItem */ "components/JbItem").then((function () {return resolve(__webpack_require__(/*! ../../components/JbItem.vue */ 340));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var JbItem = function JbItem() {__webpack_require__.e(/*! require.ensure | components/JbItem */ "components/JbItem").then((function () {return resolve(__webpack_require__(/*! ../../components/JbItem.vue */ 340));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -205,17 +230,12 @@ __webpack_require__.r(__webpack_exports__);
 
   data: function data() {
     return {
+      showPup: false,
       active: null,
       peopleList: ['<=4人', '5人', '6人', '7人', '8人', '9人', '10人', '10人+'] };
 
   },
-  methods: {
-    goDetail: function goDetail() {
-      uni.navigateTo({
-        url: "../scriptDetails/details" });
-
-    } } };exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+  methods: {} };exports.default = _default;
 
 /***/ }),
 

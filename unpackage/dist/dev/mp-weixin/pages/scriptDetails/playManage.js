@@ -100,6 +100,9 @@ try {
     },
     uModal: function() {
       return __webpack_require__.e(/*! import() | uview-ui/components/u-modal/u-modal */ "uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-modal/u-modal.vue */ 302))
+    },
+    uPopup: function() {
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-popup/u-popup */ "uview-ui/components/u-popup/u-popup").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-popup/u-popup.vue */ 333))
     }
   }
 } catch (e) {
@@ -138,7 +141,11 @@ var render = function() {
       _vm.active = index
     }
 
-    _vm.e2 = function($event, index) {
+    _vm.e2 = function($event) {
+      _vm.showPup = true
+    }
+
+    _vm.e3 = function($event, index) {
       var _temp3 = arguments[arguments.length - 1].currentTarget.dataset,
         _temp4 = _temp3.eventParams || _temp3["event-params"],
         index = _temp4.index
@@ -146,6 +153,11 @@ var render = function() {
       var _temp3, _temp4
 
       _vm.tabActive = index
+    }
+
+    _vm.e4 = function($event) {
+      $event.stopPropagation()
+      _vm.downFlag = true
     }
   }
 }
@@ -181,7 +193,24 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var JbItem = function JbItem() {__webpack_require__.e(/*! require.ensure | components/JbItem */ "components/JbItem").then((function () {return resolve(__webpack_require__(/*! ../../components/JbItem.vue */ 340));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var JbItem = function JbItem() {__webpack_require__.e(/*! require.ensure | components/JbItem */ "components/JbItem").then((function () {return resolve(__webpack_require__(/*! ../../components/JbItem.vue */ 340));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -276,6 +305,8 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
   data: function data() {
     return {
+      // 筛选
+      showPup: false,
       // 人数
       active: null,
       peopleList: ['<=4人', '5人', '6人', '7人', '8人', '9人', '10人', '10人+'],
@@ -297,7 +328,35 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
       // 下架弹窗 提示文本
       content: "\u662F\u5426\u786E\u8BA4\u4E0B\u67B6\u8BE5\u5267\u672C<br>\u4E0B\u67B6\u540E\u7528\u6237\u5C06\u65E0\u6CD5\u5728\u672C\u5730\u770B\u5230\u8BE5\u5267\u672C",
       // 有车队无法下架弹窗
-      downErrFlag: false };
+      downErrFlag: false,
+      tagList: [
+      [{
+        name: '恐怖',
+        id: 1 }],
+
+      [{
+        name: '恐怖',
+        id: 1 },
+
+      {
+        name: '恐怖',
+        id: 1 },
+
+      {
+        name: '恐怖',
+        id: 1 },
+
+      {
+        name: '恐怖',
+        id: 1 },
+
+      {
+        name: '恐怖',
+        id: 1 }]],
+
+
+
+      tagIds: [] };
 
   },
   methods: {
@@ -313,6 +372,12 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
     // 下架剧本 弹窗确定
     downConfirm: function downConfirm() {
       this.downErrFlag = true;
+    },
+    // 点击剧本
+    goDetail: function goDetail() {
+      uni.navigateTo({
+        url: "../scriptDetails/details" });
+
     } },
 
   computed: {
@@ -332,6 +397,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
           this.shopActive = newVal;
         }
       } } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 
