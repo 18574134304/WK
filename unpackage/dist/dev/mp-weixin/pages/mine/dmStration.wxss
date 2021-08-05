@@ -38,14 +38,23 @@
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
           justify-content: space-between;
-  padding: 60rpx 32rpx 18rpx 46rpx;
+  padding: 0 32rpx;
+  height: 88rpx;
   background-color: #FFFFFF;
 }
-.dm-stration .dm-header image.data-v-55703260 {
+.dm-stration .dm-header .img1.data-v-55703260 {
   width: 27rpx;
   height: 37rpx;
 }
-.dm-stration .dm-header image.data-v-55703260:last-child {
+.dm-stration .dm-header .img1 image.data-v-55703260 {
+  width: 27rpx;
+  height: 37rpx;
+}
+.dm-stration .dm-header .img2.data-v-55703260 {
+  width: 40rpx;
+  height: 40rpx;
+}
+.dm-stration .dm-header .img2 image.data-v-55703260 {
   width: 40rpx;
   height: 40rpx;
 }

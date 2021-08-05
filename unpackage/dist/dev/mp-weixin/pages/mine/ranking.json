@@ -1,3 +1,5 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "title-block": "/components/title-block/title-block"
+  }
 }
