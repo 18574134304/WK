@@ -23,7 +23,7 @@
 			<view class="schedule-box">
 					<view class="box-con" v-for="item in list">
 						<view class="con-title">{{ item.title }}</view>
-						<view class="con-box" v-for="items in item.children">
+						<view class="con-box" v-for="items in item.children" :style="[{background:(items.status==1?'#FF5733': '#09BCAF')}]">
 							<view class="box-title">{{ items.name }}</view>
 							<view class="box-name">
 								<view class="name-left">
@@ -81,7 +81,23 @@
 								time: '2021-02-21  14:00',
 								roomk: '这是备注这是备注这…',
 								status: 1
-							}
+							},
+							{
+								name: '前男友的100种死法',
+								nameNum: 5,
+								dmName: 'FFF',
+								time: '2021-02-21  14:00',
+								roomk: '这是备注这是备注这…',
+								status: 2
+							},
+							{
+								name: '前男友的100种死法',
+								nameNum: 5,
+								dmName: 'FFF',
+								time: '2021-02-21  14:00',
+								roomk: '这是备注这是备注这…',
+								status: 1
+							},
 						]
 					},
 					{
@@ -94,7 +110,15 @@
 								time: '2021-02-21  14:00',
 								roomk: '这是备注这是备注这…',
 								status: 2
-							}
+							},
+							{
+								name: '前男友的100种死法',
+								nameNum: 5,
+								dmName: 'FFF',
+								time: '2021-02-21  14:00',
+								roomk: '这是备注这是备注这…',
+								status: 1
+							},
 						]
 					},
 					{
@@ -236,7 +260,7 @@
 		
 		.schedule-box{
 			display: flex;
-			align-items: center;
+			// align-items: center;
 			margin-top: 40rpx;
 			.box-con{
 				width: 50%;
