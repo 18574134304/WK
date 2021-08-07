@@ -9,7 +9,7 @@
 					<view class="left-top">MINI沉浸式剧本推理社</view>
 					<view class="left-bottom">管理员账号：4545245452</view>
 				</view>
-				<view class="title-right">门店管理></view>
+				<navigator url="../index/shopManage/shopManage" style="z-index: 99;"><view class="title-right">门店管理></view></navigator>
 			</view>
 		</view>
 		
