@@ -126,6 +126,25 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var l1 = _vm.__map(_vm.tagList, function(item, index) {
+    var $orig = _vm.__get_orig(item)
+
+    var l0 = _vm.__map(item, function(item1, index1) {
+      var $orig = _vm.__get_orig(item1)
+
+      var m0 = _vm.tagActive(index, item1.id)
+      return {
+        $orig: $orig,
+        m0: m0
+      }
+    })
+
+    return {
+      $orig: $orig,
+      l0: l0
+    }
+  })
+
   if (!_vm._isMounted) {
     _vm.e0 = function($event) {
       _vm.active = null
@@ -159,7 +178,20 @@ var render = function() {
       $event.stopPropagation()
       _vm.downFlag = true
     }
+
+    _vm.e5 = function($event) {
+      _vm.tagIds = []
+    }
   }
+
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        l1: l1
+      }
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -299,6 +331,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 {
   components: {
     JbItem: JbItem },
@@ -306,7 +339,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       // 筛选
-      showPup: false,
+      showPup: true,
       // 人数
       active: null,
       peopleList: ['<=4人', '5人', '6人', '7人', '8人', '9人', '10人', '10人+'],
@@ -340,19 +373,49 @@ __webpack_require__.r(__webpack_exports__);
 
       {
         name: '恐怖',
-        id: 1 },
+        id: 2 },
 
       {
+        name: '恐怖',
+        id: 3 },
+
+      {
+        name: '恐怖',
+        id: 4 },
+
+      {
+        name: '恐怖',
+        id: 5 }],
+
+
+      [{
         name: '恐怖',
         id: 1 },
 
       {
         name: '恐怖',
-        id: 1 },
+        id: 2 },
 
       {
         name: '恐怖',
-        id: 1 }]],
+        id: 3 },
+
+      {
+        name: '恐怖',
+        id: 4 },
+
+      {
+        name: '恐怖',
+        id: 5 },
+
+      {
+        name: '恐怖',
+        id: 6 },
+
+      {
+        name: '恐怖',
+        id: 7 }]],
+
 
 
 
@@ -378,6 +441,22 @@ __webpack_require__.r(__webpack_exports__);
       uni.navigateTo({
         url: "../scriptDetails/details" });
 
+    },
+    // 标签点击事件
+    tagClick: function tagClick(index, id) {
+      if (this.tagIds[index]) {
+        if (this.tagIds[index].includes(id)) {
+          this.tagIds[index].splice(this.tagIds[index].indexOf(id), 1);
+        } else {
+          var arr = this.tagIds[index];
+          arr.push(id);
+          this.$set(this.tagIds, index, arr);
+        }
+
+      } else {
+        this.tagIds[index] = [];
+        this.$set(this.tagIds, index, [id]);
+      }
     } },
 
   computed: {
@@ -396,7 +475,17 @@ __webpack_require__.r(__webpack_exports__);
         } else {
           this.shopActive = newVal;
         }
-      } } } };exports.default = _default;
+      } },
+
+    tagActive: function tagActive() {var _this = this;
+      return function (index, id) {
+        if (_this.tagIds[index] && _this.tagIds[index].includes(id)) {
+          return true;
+        } else {
+          return false;
+        }
+      };
+    } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

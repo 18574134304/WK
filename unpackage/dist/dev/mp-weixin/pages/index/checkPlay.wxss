@@ -188,6 +188,6 @@
 }
 .p-active.data-v-ae5fdf14 {
   background-color: #00BAAD !important;
-  color: #fff;
+  color: #fff !important;
 }
 

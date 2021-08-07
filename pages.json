@@ -180,6 +180,22 @@
 				}
 			}
 		},
+		// 添加剧本
+		{
+			"path": "pages/scriptDetails/tags",
+			"style": {
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "添加剧本"
+			}
+		},
+		// 剧本标签
+		{
+			"path": "pages/scriptDetails/addPlay",
+			"style": {
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTitleText": "选择标签"
+			}
+		},
 		// 首页中页面 结束
 		
 		

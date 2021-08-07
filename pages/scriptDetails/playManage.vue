@@ -8,6 +8,9 @@
 				<image src="../../static/content/search-icon.png"></image>
 				<input type="text" value="" placeholder="请输入剧本名称/发行商/剧本类型" />
 			</view>
+			<navigator url="./addPlay" hover-class="none">
+				<image src="../../static/scriptDetails/add-icon.png" class="add-icon"></image>
+			</navigator>
 		</view>
 		<view class="people">
 			<view class="item" @click="active=null" :class="{'item1 active':active===null}">不限</view>
@@ -86,16 +89,17 @@
 		<u-popup v-model="showPup" mode="right" border-radius="14" width="75%">
 			<view class="p-popup">
 				<scroll-view scroll-y="true" style="height: 100%;">
-					<view class="p-cate" v-for="item in tagList">
+					<view class="p-cate" v-for="(item,index) in tagList" :key="index">
 						<view class="p-title">题材</view>
 						<view class="cate-list">
-							<view class="c-item" v-for="item1 in item">{{item1.name}}</view>
+							<view class="c-item" :class="{'p-active':tagActive(index,item1.id)}" :key="index1"
+								v-for="(item1,index1) in item" @click="tagClick(index,item1.id)">{{item1.name}}</view>
 						</view>
 					</view>
 				</scroll-view>
 			</view>
 			<view class="btnG">
-				<view class="btn">清空</view>
+				<view class="btn" @click="tagIds=[]">清空</view>
 				<view class="btn p-active">确定</view>
 			</view>
 		</u-popup>
@@ -138,29 +142,59 @@
 					[{
 						name: '恐怖',
 						id: 1
-					}, ],
+					}],
 					[{
 							name: '恐怖',
 							id: 1
 						},
 						{
 							name: '恐怖',
-							id: 1
+							id: 2
 						},
 						{
+							name: '恐怖',
+							id: 3
+						},
+						{
+							name: '恐怖',
+							id: 4
+						},
+						{
+							name: '恐怖',
+							id: 5
+						}
+					],
+					[{
 							name: '恐怖',
 							id: 1
 						},
 						{
 							name: '恐怖',
-							id: 1
+							id: 2
 						},
 						{
 							name: '恐怖',
-							id: 1
+							id: 3
 						},
+						{
+							name: '恐怖',
+							id: 4
+						},
+						{
+							name: '恐怖',
+							id: 5
+						},
+						{
+							name: '恐怖',
+							id: 6
+						},
+						{
+							name: '恐怖',
+							id: 7
+						}
 					],
 				],
+
 				tagIds: [],
 			}
 		},
@@ -183,6 +217,22 @@
 				uni.navigateTo({
 					url: "../scriptDetails/details"
 				})
+			},
+			// 标签点击事件
+			tagClick(index, id) {
+				if (this.tagIds[index]) {
+					if (this.tagIds[index].includes(id)) {
+						this.tagIds[index].splice(this.tagIds[index].indexOf(id), 1)
+					} else {
+						let arr = this.tagIds[index]
+						arr.push(id)
+						this.$set(this.tagIds, index, arr)
+					}
+
+				} else {
+					this.tagIds[index] = []
+					this.$set(this.tagIds, index, [id])
+				}
 			}
 		},
 		computed: {
@@ -200,6 +250,15 @@
 						this.platActive = newVal
 					} else {
 						this.shopActive = newVal
+					}
+				}
+			},
+			tagActive() {
+				return (index, id) => {
+					if (this.tagIds[index] && this.tagIds[index].includes(id)) {
+						return true
+					} else {
+						return false
 					}
 				}
 			}
@@ -250,6 +309,12 @@
 					border-radius: 80rpx;
 				}
 			}
+				.add-icon{
+					margin-left: 20rpx;
+					width: 40rpx;
+					height: 40rpx;
+					flex-shrink: 0;
+				}
 		}
 
 		.people {
@@ -499,6 +564,6 @@
 
 	.p-active {
 		background-color: #00BAAD !important;
-		color: #fff;
+		color: #fff !important;
 	}
 </style>

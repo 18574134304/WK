@@ -79,7 +79,7 @@
 					},
 					{
 						text: '收入管理',
-						link: '#'
+						link: '../mine/myWallet'
 					}
 				]
 			}

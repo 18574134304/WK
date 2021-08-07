@@ -29,16 +29,17 @@
 		<u-popup v-model="showPup" mode="right" border-radius="14" width="75%">
 			<view class="p-popup">
 				<scroll-view scroll-y="true" style="height: 100%;">
-					<view class="p-cate" v-for="item in 5">
+					<view class="p-cate" v-for="(item,index) in tagList" :key="index">
 						<view class="p-title">题材</view>
 						<view class="cate-list">
-							<view class="c-item" v-for="item in 11">恐怖</view>
+							<view class="c-item" :class="{'p-active':tagActive(index,item1.id)}" :key="index1"
+								v-for="(item1,index1) in item" @click="tagClick(index,item1.id)">{{item1.name}}</view>
 						</view>
 					</view>
 				</scroll-view>
 			</view>
 			<view class="btnG">
-				<view class="btn">清空</view>
+				<view class="btn" @click="tagIds=[]">清空</view>
 				<view class="btn p-active">确定</view>
 			</view>
 		</u-popup>
@@ -55,10 +56,96 @@
 			return {
 				showPup: false,
 				active: null,
-				peopleList: ['<=4人', '5人', '6人', '7人', '8人', '9人', '10人', '10人+']
+				peopleList: ['<=4人', '5人', '6人', '7人', '8人', '9人', '10人', '10人+'],
+				// 筛选数据
+				tagList: [
+					[{
+						name: '恐怖',
+						id: 1
+					}],
+					[{
+							name: '恐怖',
+							id: 1
+						},
+						{
+							name: '恐怖',
+							id: 2
+						},
+						{
+							name: '恐怖',
+							id: 3
+						},
+						{
+							name: '恐怖',
+							id: 4
+						},
+						{
+							name: '恐怖',
+							id: 5
+						}
+					],
+					[{
+							name: '恐怖',
+							id: 1
+						},
+						{
+							name: '恐怖',
+							id: 2
+						},
+						{
+							name: '恐怖',
+							id: 3
+						},
+						{
+							name: '恐怖',
+							id: 4
+						},
+						{
+							name: '恐怖',
+							id: 5
+						},
+						{
+							name: '恐怖',
+							id: 6
+						},
+						{
+							name: '恐怖',
+							id: 7
+						}
+					],
+				],
+
+				tagIds: [],
 			}
 		},
 		methods: {
+			// 标签点击事件
+			tagClick(index, id) {
+				if (this.tagIds[index]) {
+					if (this.tagIds[index].includes(id)) {
+						this.tagIds[index].splice(this.tagIds[index].indexOf(id), 1)
+					} else {
+						let arr = this.tagIds[index]
+						arr.push(id)
+						this.$set(this.tagIds, index, arr)
+					}
+
+				} else {
+					this.tagIds[index] = []
+					this.$set(this.tagIds, index, [id])
+				}
+			}
+		},
+		computed: {
+			tagActive() {
+				return (index, id) => {
+					if (this.tagIds[index] && this.tagIds[index].includes(id)) {
+						return true
+					} else {
+						return false
+					}
+				}
+			}
 		}
 	}
 </script>
@@ -172,12 +259,13 @@
 			width: 100%;
 		}
 	}
-	
+
 	.p-popup {
 		box-sizing: border-box;
 		padding: 30rpx;
 		padding-right: 10rpx;
 		height: 92%;
+
 		.p-cate {
 			.p-title {
 				font-size: 28rpx;
@@ -185,12 +273,12 @@
 				font-weight: 600;
 				margin-bottom: 10rpx;
 			}
-	
+
 			.cate-list {
 				display: flex;
 				flex-wrap: wrap;
 				padding: 20rpx 0 10rpx;
-	
+
 				.c-item {
 					width: calc((100% - 45rpx) / 3);
 					margin-right: 15rpx;
@@ -205,14 +293,14 @@
 				}
 			}
 		}
-	
+
 	}
-	
+
 	.btnG {
 		display: flex;
 		justify-content: space-between;
 		padding: 0 20rpx 20rpx;
-	
+
 		.btn {
 			width: 240rpx;
 			height: 76rpx;
@@ -223,9 +311,9 @@
 			background-color: #f2f2f2;
 		}
 	}
-	
+
 	.p-active {
 		background-color: #00BAAD !important;
-		color: #fff;
+		color: #fff !important;
 	}
 </style>

@@ -324,6 +324,6 @@
 }
 .p-active.data-v-4bdf6aca {
   background-color: #00BAAD !important;
-  color: #fff;
+  color: #fff !important;
 }
 
