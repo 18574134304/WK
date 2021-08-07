@@ -21,27 +21,27 @@
 		<scroll-view style="margin:0 32rpx;" scroll-x="true">
 			
 			<view class="schedule-box">
-				<view class="box-title">
-					<view class="inFlex">
-						<view class="title-name">包厢名称</view>
-						<view class="title-name">包厢名称</view>
-						<view class="title-name">包厢名称</view>
-						<view class="title-name">包厢名称</view>
-						<view class="title-name">包厢名称123123</view>
-					</view>
-				</view>
-					<view class="box-con" v-for="item in 3">
-						<view class="con-left" v-for="item in 5">
-							<view class="left-title">前男友的100种死法</view>
-							<view class="left-name">
+					<view class="box-con" v-for="item in list">
+						<view class="con-title">{{ item.title }}</view>
+						<view class="con-box" v-for="items in item.children" :style="[{background:(items.status==1?'#FF5733': '#09BCAF')}]">
+							<view class="box-title">{{ items.name }}</view>
+							<view class="box-name">
 								<view class="name-left">
 									<image src="../../static/index/shcihi1.png" mode=""></image>
-									<text>5</text>
+									<text>{{ items.nameNum }}</text>
 								</view>
 								<view class="name-right">
 									<image src="../../static/index/shcihi2.png" mode=""></image>
-									<text>FFF</text>
+									<text>{{ items.dmName }}</text>
 								</view>
+							</view>
+							<view class="box-time">
+								<image src="../../static/index/shcihi3.png" mode=""></image>
+								<text>{{ items.time }}</text>
+							</view>
+							<view class="con-roomk">
+								<image src="../../static/index/shcihi4.png" mode=""></image>
+								<text>{{ items.roomk }}…</text>
 							</view>
 						</view>
 				</view>
@@ -70,6 +70,84 @@
 				nowWeek: '',
 				show: false,
 				mode: 'date',
+				list: [
+					{
+						title: '包厢名称',
+						children: [
+							{
+								name: '前男友的100种死法',
+								nameNum: 5,
+								dmName: 'FFF',
+								time: '2021-02-21  14:00',
+								roomk: '这是备注这是备注这…',
+								status: 1
+							},
+							{
+								name: '前男友的100种死法',
+								nameNum: 5,
+								dmName: 'FFF',
+								time: '2021-02-21  14:00',
+								roomk: '这是备注这是备注这…',
+								status: 2
+							},
+							{
+								name: '前男友的100种死法',
+								nameNum: 5,
+								dmName: 'FFF',
+								time: '2021-02-21  14:00',
+								roomk: '这是备注这是备注这…',
+								status: 1
+							},
+						]
+					},
+					{
+						title: '包厢名称',
+						children: [
+							{
+								name: '前男友的100种死法',
+								nameNum: 5,
+								dmName: 'FFF',
+								time: '2021-02-21  14:00',
+								roomk: '这是备注这是备注这…',
+								status: 2
+							},
+							{
+								name: '前男友的100种死法',
+								nameNum: 5,
+								dmName: 'FFF',
+								time: '2021-02-21  14:00',
+								roomk: '这是备注这是备注这…',
+								status: 1
+							},
+						]
+					},
+					{
+						title: '包厢名称',
+						children: [
+							{
+								name: '前男友的100种死法',
+								nameNum: 5,
+								dmName: 'FFF',
+								time: '2021-02-21  14:00',
+								roomk: '这是备注这是备注这…',
+								status: 1
+							}
+						]
+					},
+					{
+						title: '包厢名称',
+						children: [
+							{
+								name: '前男友的100种死法',
+								nameNum: 5,
+								dmName: 'FFF',
+								time: '2021-02-21  14:00',
+								roomk: '这是备注这是备注这…',
+								status: 2
+							}
+						]
+					}
+				]
 			}
 		},
 		mounted() {
@@ -81,8 +159,19 @@
 			}
 			this.systemTime = date.year + '-' + date.month + '-' + date.date
 			this.setNowTimes()
+			this.getData()
 		},
 		methods: {
+			async getData() {
+				let res = await this.$request.request({
+					method: 'get',
+					url: '/v1/room/queryRoomCatTeamList',
+					data: {
+						date: this.systemTime
+					}
+				})
+				console.log(res)
+			},
 			// 计算星期
 			setNowTimes() {
 				let myDate = new Date()
@@ -170,73 +259,94 @@
 		}
 		
 		.schedule-box{
-			// display: flex;
-			// align-items: flex-start;
-			// justify-content: space-between;
-			.box-title{
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				border-radius: 14rpx 0px 0px 0px;
-				width: 100%;
-				height: 80rpx;
-				flex-shrink: 0;
-				line-height: 80rpx;
-				font-size: 28rpx;
-				font-weight: 500;
-				
-				width: 100%;
-				.title-name{
-					width: 50%;
-					text-align: center;
-					color: #00BAAD;
-					flex-shrink: 0;
-				background: rgba(0,186,173,0.2);
-				}
-			}
-			.inFlex{
-				width: 100%;
-				display: inline-flex;
-				white-space: nowrap;
-				width: 100%;
-			}
+			display: flex;
+			// align-items: center;
+			margin-top: 40rpx;
 			.box-con{
-				width: 100%;
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				color: #FFFFFF;
-				.con-left{
-					width: 50%;
-					height: 240px;
-					background: #FF5733;
-					padding: 24rpx;
-					flex-shrink: 0;
-					.left-title{
+				width: 50%;
+				.con-title{
+					height: 80rpx;
+					background-color: rgba(186,173,255,.2);
+					line-height: 80rpx;
+					font-size: 28rpx;
+					font-weight: 500;
+					color: #00BAAD;
+					text-align: center;
+				}
+				.con-title:first-child{
+					border-radius: 14rpx 0rpx 0rpx 0rpx;
+				}
+				.con-title:last-child{
+					border-radius: 0rpx 14rpx 0rpx 0rpx;
+				}
+				.con-box{
+					padding: 24rpx 0 21rpx 24rpx;
+					background-color: #FF5733;
+					.box-title{
 						font-size: 28rpx;
 						font-weight: 500;
+						color: #FFFFFF;
+						margin-bottom: 20rpx;
 					}
-					.left-name{
+					.box-name{
 						display: flex;
 						align-items: center;
 						justify-content: space-between;
+						width: 60%;
+						margin-bottom: 16rpx;
 						.name-left{
 							display: flex;
 							align-items: center;
 							font-size: 24rpx;
+							color: #FFFFFF;
 							image{
 								width: 24rpx;
 								height: 24rpx;
+								margin-right: 10rpx;
 							}
 						}
 						.name-right{
 							display: flex;
 							align-items: center;
 							font-size: 24rpx;
+							color: #FFFFFF;
 							image{
 								width: 24rpx;
 								height: 24rpx;
+								margin-right: 10rpx;
 							}
+						}
+					}
+					.box-time{
+						display: flex;
+						align-items: center;
+						font-size: 24rpx;
+						color: #FFFFFF;
+						margin-bottom: 16rpx;
+						image{
+							width: 24rpx;
+							height: 24rpx;
+							margin-right: 10rpx;
+						}
+					}
+					.con-roomk{
+						display: flex;
+						align-items: center;
+						font-size: 24rpx;
+						color: #FFFFFF;
+						width: 80%;
+						overflow:hidden;
+						text-overflow:ellipsis;
+						white-space:nowrap;
+						z-index: 99;
+						image{
+							width: 24rpx;
+							height: 24rpx;
+							margin-right: 10rpx;
+							z-index: 99;
+						}
+						text{
+							letter-spacing: 1rpx;
 						}
 					}
 				}

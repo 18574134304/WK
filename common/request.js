@@ -1,17 +1,19 @@
 // 引入 Request
 import Request from '@/myp-request/index.js'
 let token = ''
-// uni.clearStorageSync();	
+// uni.clearStorageSync();
 // token = uni.getStorageSync('token')
 // if(token) {
 	console.log('touken',uni.getStorageSync('token'))
 // }
 // 设置 通用的 baseUrl 以及 header
 const config = {
-	baseUrl: 'http://47.94.232.145:8082/zhongben-app/',
+	baseUrl: 'http://47.94.232.145:8082/zhongben-app/api',
     header: {
-		"Content-Type": "application/json",
-		"Authorization": uni.getStorageSync('token')
+		// "Content-Type": "application/json",
+		"Content-Type": "application/x-www-form-urlencoded",
+		"TOKEN": uni.getStorageSync('token')
+		// "TOKEN": 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjgxNjQ5MTMsInVzZXJJZCI6IjE0MjA3OTA4MDE2MjkxMzA3NTQifQ.g4on9HnnGSknWv8-uj4sEKO8Kw-LabDP52yhDcdUVGU'
 		},
     // 取消请求时的提示信息配置，自己根据自己的需要设置字段以及内容
     // 全局有效，可以在api的options中进行单独覆盖配置
