@@ -15,17 +15,17 @@
 		
 		<view class="sale-box">
 			<u-dropdown>
-				<u-dropdown-item v-if="title == '月账单'" @change="droChange" v-model="value1" :title="optionsyue" :options="options2"></u-dropdown-item>
+				<u-dropdown-item height="900" v-if="title == '月账单'" @change="droChange" v-model="optionsyue" :title="optionsyue" :options="options2"></u-dropdown-item>
 				
-				<u-dropdown-item v-if="title == '年账单'" @change="droChange1" v-model="value2" :title="optionsnian" :options="options3"></u-dropdown-item>
+				<u-dropdown-item v-if="title == '年账单'" @change="droChange1" v-model="optionsnian" :title="optionsnian" :options="options3"></u-dropdown-item>
 			
 			</u-dropdown>
 			
 			<view class="box-center">
-				共开300场，合计
+				共开{{ sessionNum }}场，合计
 			</view>
 			<view class="box-bottom">
-				￥10000.00
+				￥{{ money }}
 			</view>
 		</view>
 	</view>
@@ -35,58 +35,62 @@
 	export default {
 		data() {
 			return {
+				money: '',
+				sessionNum: '',
 				title: '月账单',
 				optionsyue: new Date().getFullYear() + '年' + (new Date().getMonth() + 1 + '月'),
 				optionsnian: new Date().getFullYear() + '年',
 				value1: 1,
 				value2: 1,
+				yearMoun: null,
+				moun: null,
 				options2: [
 					{
-						label: '1月',
+						label: new Date().getFullYear() + '年' + '1月',
 						value: 1,
 					},
 					{
-						label: '2月',
+						label: new Date().getFullYear() + '年' + '2月',
 						value: 2,
 					},
 					{
-						label: '3月',
+						label: new Date().getFullYear() + '年' + '3月',
 						value: 3,
 					},
 					{
-						label: '4月',
+						label: new Date().getFullYear() + '年' + '4月',
 						value: 4,
 					},
 					{
-						label: '5月',
+						label: new Date().getFullYear() + '年' + '5月',
 						value: 5,
 					},
 					{
-						label: '6月',
+						label: new Date().getFullYear() + '年' + '6月',
 						value: 6,
 					},
 					{
-						label: '7月',
+						label: new Date().getFullYear() + '年' + '7月',
 						value: 7,
 					},
 					{
-						label: '8月',
+						label: new Date().getFullYear() + '年' + '8月',
 						value: 8,
 					},
 					{
-						label: '9月',
+						label: new Date().getFullYear() + '年' + '9月',
 						value: 9,
 					},
 					{
-						label: '10月',
+						label: new Date().getFullYear() + '年' + '10月',
 						value: 10,
 					},
 					{
-						label: '11月',
+						label: new Date().getFullYear() + '年' + '11月',
 						value: 11,
 					},
 					{
-						label: '12月',
+						label: new Date().getFullYear() + '年' + '12月',
 						value: 12,
 					}
 				],
@@ -115,15 +119,44 @@
 				
 			}
 		},
+		mounted() {
+			this.dateChangeData(1,new Date().getFullYear() + '-' + ((new Date().getMonth() + 1) < 9 ? '0' + (new Date().getMonth() + 1) : (new Date().getMonth() + 1)))
+		},
 		methods: {
 			titleChange(title) {
 				this.title = title
 			},
 			droChange(e) {
-				this.options = new Date().getFullYear() + '年' + e + '月'
+				this.optionsyue = new Date().getFullYear() + '年' + e + '月'
+				this.yearMoun = new Date().getFullYear() + '-' + (e < 9 ? '0' + e : e)
+				this.dateChangeData(1,this.yearMoun)
 			},
 			droChange1(e) {
 				this.optionsnian = e + '年'
+				this.dateChangeData(2,e)
+			},
+			async dateChangeData(type,date) {
+				let {data: res} = await this.$request.request({
+					url: '/v1/store/getCountBill',
+					method: 'get',
+					data: {
+						date,
+						type
+					}
+				})
+				if(res.code == 1) {
+					this.sessionNum = res.data.sessionNum
+					this.money = res.data.money
+					uni.showToast({
+						title: res.msg,
+						icon: 'none'
+					})
+				}else {
+					uni.showToast({
+						title: res.msg,
+						icon: 'none'
+					})
+				}
 			},
 			// 后退
 			toBack() {

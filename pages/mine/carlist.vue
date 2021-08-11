@@ -5,12 +5,12 @@
 			<image @click="toBack" class="header-img" src="../../static/mine/zuo1.png" mode=""></image>
 			<view class="header-right">
 				<image src="../../static/mine/search.png" mode=""></image>
-				<input type="text" value="" placeholder="请输入剧本名称" />
+				<input v-model="scriptName" @input="searchInput" type="text" value="" placeholder="请输入剧本名称" />
 			</view>
 		</view>
 		
 		<view class="car-tab">
-			<view :class="[tabIndex == index ? 'tab-check' : '']" @click="tabClick(index)" class="tab-item" v-for="(item,index) in tabList">{{ item }}</view>
+			<view :class="[tabIndex == index ? 'tab-check' : '']" @click="tabClick(index,item.id)" class="tab-item" v-for="(item,index) in tabList">{{ item.name }}</view>
 		</view>
 		<view class="tab-jump" v-if="tabIndex == 1">
 			<view class="tab-jump-box">
@@ -24,49 +24,109 @@
 			
 			
 			<view class="box-title">
-				<image :src="item.url" mode=""></image>
+				<image :src="item.scenImg" mode=""></image>
 				<view class="box-title-right">
 					<view class="right-title">
-						<view class="title-name">{{ item.title }}</view>
-						<image v-if="tabIndex == 0 || tabIndex == 1" src="../../static/mine/car1.png" mode=""></image>
-						<view class="right-price" v-if="tabIndex == 2">￥1500</view>
+						<view class="title-name">{{ item.scenName }}</view>
+						<image v-if="item.carTeamType == 2 || item.carTeamType == 4" src="../../static/mine/car1.png" mode=""></image>
+						<view class="right-price" v-if="item.carTeamType == 3">￥{{ item.price }}</view>
 					</view>
 					<view class="fangjian">
 						<image src="../../static/mine/car3.png" mode=""></image>
-						{{ item.name }}
+						{{ item.roomName }}
 					</view>
 					
 					<view class="box-time">
 						<view class="time-left">
 							<image src="../../static/index/l2.png" mode=""></image>
-							{{ item.time }}
+							{{ item.openCarDate.substring(0,10)}}{{item.openCarTime }}
 						</view>
 						<view class="time-right">
 							<image src="../../static/index/l4.png" mode=""></image>
-							{{ item.color }}
+							{{ item.dmNickName }}
 						</view>
 					</view>
 					
 					<view class="fangjian">
 						<image src="../../static/mine/car5.png" mode=""></image>
-						{{ item.juben }}
+						{{ item.carTeamTagline }}
 					</view>
 				</view>
 			</view>
 			<view class="box-bottom">
 				<view class="bottom-left">
-					<view class="left-weight" v-if="item.status == 1">已锁车</view>
-					<view class="left-weight" v-if="item.status == 2">已完成</view>
-					<view class="left-weight" v-if="item.status == 3">已取消</view>
-					<view class="left-yes" v-if="item.Jump">有跳车</view>
+					<view class="left-weight" v-if="item.carTeamType == 2 || item.carTeamType == 4">已锁车</view>
+					<view class="left-weight" v-if="item.carTeamType == 3">已完成</view>
+					<view class="left-weight" v-if="item.carTeamType == 9">已取消</view>
+					<view class="left-yes" v-if="item.carTeamType == 4">有跳车</view>
 				</view>
 				<view class="bottom-right">
-					<view class="jiesan">解散车队</view>
-					<view class="ok" v-if="tabIndex != 2 && tabIndex != 3">确认完成</view>
-					<navigator url="orderDetauls" v-if="tabIndex == 2 || tabIndex == 3"><view class="ok">订单详情</view></navigator>
+					<view class="jiesan" v-if="item.carTeamType == 2 || item.carTeamType == 4" @click="dissolutionCar(item.id)">解散车队</view>
+					<view class="ok" v-if="item.carTeamType == 1" @click="dShow = true;lockCarId = item.id">锁车</view>
+					<view class="ok" v-if="item.carTeamType == 1" @click="parking(item.id)">车位管理</view>
+					<view class="ok" v-if="item.carTeamType == 1" @click="cTipShow = true,lockCarId = item.id">修改宣传语</view>
+					<view class="jiesan" v-if="item.carTeamType == 3 || item.carTeamType ==9" @click="deleteOrder(item.id)">删除车队</view>
+					<view class="ok" v-if="item.carTeamType == 2 || item.carTeamType == 4" @click="carSubmit(item.id)">确认完成</view>
+					<navigator :url="'orderDetauls?id=' + item.id" v-if="item.carTeamType == 3 || item.carTeamType ==9"><view class="ok">查看详情</view></navigator>
 				</view>
 			</view>
 		</view>
+		
+		<!-- 锁车弹框 -->
+		<u-modal v-model="dShow" :show-title="false" @confirm="lockCar" @cancel="dShow = false" :show-cancel-button="true"
+			confirm-color="#09BCAF">
+			<view class="slot-content">
+				<rich-text :nodes="content"></rich-text>
+			</view>
+		</u-modal>
+		
+		<!-- 修改车队宣传语弹框 -->
+		<u-modal v-model="cTipShow" title="车队宣传语" @confirm="carConfirm" @cancel="cTipShow = false;carValue = ''" :show-cancel-button="true"
+			confirm-color="#09BCAF">
+			<view class="text-box">
+				<view class="textarea">
+					<textarea v-model="carValue" placeholder="请输入车队宣传语" maxlength="160" />
+					<text class="length">{{carValue.length}}/160</text>
+				</view>
+			</view>
+		</u-modal>
+		
+		
+		<!-- 车位管理弹框 -->
+		<u-modal v-if="cShow" v-model="cShow" :show-title="false" @confirm="confirm(1)" @cancel="cancel" :show-cancel-button="true"
+			confirm-color="#09BCAF">
+			<view class="slot-content car-box">
+				<view class="car-icon">
+					<image src="@/static/index/car-icon.png"></image>
+				</view>
+				<view class="cb">
+					<view class="cb-box">
+						<view class="c-item"  v-for="item in parkingList">
+							<image :src="item.img" @click="imgStatusChange(item.status)"></image>
+						</view>
+						<!-- <view class="c-item" @click="lockFlag=true">
+							<image src="@/static/index/Unlock.png"></image>
+						</view> -->
+						<view class="c-item" @click="unLockFlag=true" v-for="item in lockNum">
+							<image src="@/static/index/lock.png"></image>
+						</view>
+						<!-- <view class="c-item" v-if="peopleNum != parkingList.length">
+							<image src="@/static/index/add-icon.png"></image>
+						</view> -->
+						
+						
+					</view>
+				</view>
+			</view>
+		</u-modal>
+		<!-- 锁定车位弹框 -->
+		<u-modal v-model="lockFlag" :show-title="false" @confirm="confirm(1)" @cancel="cancel"
+			:show-cancel-button="true" confirm-color="#09BCAF" content="是否锁定车位？"></u-modal>
+		<!-- 解锁车位弹框 -->
+		<u-modal v-model="unLockFlag" :show-title="false" @confirm="confirm(1)" @cancel="cancel"
+			:show-cancel-button="true" confirm-color="#09BCAF" content="是否解锁车位？"></u-modal>
+		
+		
 	</view>
 </template>
 
@@ -74,62 +134,274 @@
 	export default{
 		data() {
 			return{
-				tabList: ['全部','已锁车','已完成','已取消'],
+				tabList: [
+					{
+						name: '全部',
+						id: 1
+					},
+					{
+						name:'已锁车',
+						id: 2
+					},
+					{
+						name: '已完成',
+						id: 3
+					},
+					{
+						name: '已取消',
+						id: 4
+					}
+				],
 				tabIndex: 0,
 				jumpName: '满员',
-				tabData:[
-					{
-						url: require('@/static/index/jb.png'),
-						title: '姜子牙',
-						name: '这是房间名称',
-						time: '2021-02-21  14:00',
-						color: 'FFF',
-						juben: '剧本《姜子牙》6=1',
-						status: 1,
-						Jump: true
-					},
-					{
-						url: require('@/static/index/jb.png'),
-						title: '姜子牙',
-						name: '这是房间名称',
-						time: '2021-02-21  14:00',
-						color: 'FFF',
-						juben: '剧本《姜子牙》6=1',
-						status: 2,
-						Jump: false
-					},
-					{
-						url: require('@/static/index/jb.png'),
-						title: '姜子牙',
-						name: '这是房间名称',
-						time: '2021-02-21  14:00',
-						color: 'FFF',
-						juben: '剧本《姜子牙》6=1',
-						status: 3,
-						Jump: false
-					},
-					{
-						url: require('@/static/index/jb.png'),
-						title: '姜子牙',
-						name: '这是房间名称',
-						time: '2021-02-21  14:00',
-						color: 'FFF',
-						juben: '剧本《姜子牙》6=1',
-						status: 3,
-						Jump: false
-					}
-				]
+				tabData:[],
+				type: 1,
+				scriptName: '',
+				timer: null,
+				carTeamCancelReason: '解散车队',
+				cShow: false,  // 车位管理flag
+				// 锁定车位弹窗
+				lockFlag: false,
+				// 解锁车位弹窗
+				unLockFlag: false,
+				// 锁车flag
+				dShow: false,
+				// 锁车id
+				lockCarId: '',
+				// 锁车 提示文本
+				content: `锁车后该车队会自动动成单<br>是否确认锁车？`,
+				// 车队宣传语弹窗
+				cTipShow: false,
+				// 车队宣传语
+				carValue: '',
+				peopleNum: 0,   // 车位管理头像占位
+				lockNum: 0,  // 锁子数量
 			}
 		},
+		mounted() {
+			this.getDataList()
+		},
 		methods: {
+			// input输入时事件
+			searchInput() {
+				clearTimeout(this.timer)
+				this.timer = setTimeout(() => {
+					this.getDataList()
+				},500)
+			},
 			// tab切换
-			tabClick(index) {
+			tabClick(index,id) {
 				this.tabIndex = index
+				this.type = id
+				this.getDataList()
 			},
 			// 满员跳车切换
 			jump(name) {
 				this.jumpName = name
+				if(name == '跳车') {
+					this.type = 5
+				}else {
+					this.type = 2
+				}
+				this.getDataList()
 			},
+			async getDataList() {
+				let {data: res} = await this.$request.request({
+					method: 'post',
+					url: '/v1/carTeam/queryTeamOrderApplet',
+					data: {
+						type: this.type,
+						searchWord: this.scriptName
+					}
+				})
+				if(res.code == 1) {
+					this.tabData = res.data
+				}else {
+					uni.showToast({
+						title: res.msg,
+						icon: 'none'
+					})
+				}
+			},
+			// 车位管理
+			parking(id) {
+				this.lockCarId = id
+				this.getApplyUserImg()
+			},
+			
+			// 锁车
+			async lockCar() {
+				let {data: res} = await this.$request.request({
+					url: '/v1/carTeam/immeCarTeam',
+					method: 'post',
+					data: {
+						carTeamId: this.lockCarId
+					}
+				})
+				this.dShow = false
+				this.getDataList()
+				uni.showToast({
+					title: res.msg,
+					icon: 'none'
+				})
+			},
+			// 修改宣传语
+			async carConfirm() {
+				if(this.carValue == '') {
+					uni.showToast({
+						title: '请输入宣传语',
+						icon: 'none'
+					})
+					this.cTipShow = true
+					return
+				}
+				let {data: res} = await this.$request.request({
+					url: '/v1/carTeam/editCarTeamTagline',
+					method: 'post',
+					data: {
+						id: this.lockCarId,
+						carTeamTagline: this.carValue
+					}
+				})
+				this.carValue == ''
+				this.cTipShow = false
+				uni.showToast({
+					title: res.msg,
+					icon: 'none'
+				})
+				this.getDataList()
+			},
+			
+			
+			// 获取车队报名人员头像
+			async getApplyUserImg() {
+				let {data: res} = await this.$request.request({
+					url: '/v1/carTeamSpell/getApplyUserImg',
+					method: 'get',
+					data: {
+						id: this.lockCarId
+					}
+				})
+				
+				this.parkingList = res.data
+				if(this.parkingList || this.parkingList.length > 0) {
+					this.cShow = true
+				}else {
+					uni.showToast({
+						title: '暂无车位',
+						icon: 'none'
+					})
+				}
+			},
+			
+			// 车位管理点击头像切换状态
+			async imgStatusChange(status) {
+				let type = 0
+				if(status == 1) {
+					return
+				}
+				if(status == 3) {
+					type = 1
+				}
+				if(status == 2) {
+					type = 2
+				}
+				let {data: res} = await this.$request.request({
+					url: '/v1/carTeam/lockCarTeam',
+					method: 'post',
+					data: {
+						carTeamId: this.lockCarId,
+						lockType: type
+					}
+				})
+				if(res.code == 1) {
+					uni.showToast({
+						title: res.msg,
+						icon: 'none'
+					})
+					this.cShow = false
+				}else {
+					uni.showToast({
+						title: res.msg,
+						icon: 'none'
+					})
+					this.cShow = false
+				}
+			},
+			
+			
+			
+			// 解散车队
+			async dissolutionCar(id) {
+				let {data: res} = await this.$request.request({
+					url: '/v1/carTeam/dissCarTeam',
+					method: 'post',
+					data: {
+						carTeamCancelReason: this.carTeamCancelReason,
+						carTeamId: id
+					}
+				})
+				if(res.code == 1) {
+					uni.showToast({
+						title: '解散成功',
+						icon: 'none'
+					})
+					this.getDataList()
+				}else {
+					uni.showToast({
+						title: res.msg,
+						icon: 'none'
+					})
+				}
+			},
+			// 确认完成
+			async carSubmit(id) {
+				let {data: res} = await this.$request.request({
+					url: '/v1/carTeam/finishOrder',
+					method: 'post',
+					data: {
+						carTeamId: id
+					}
+				})
+				if(res.code == 1) {
+					uni.showToast({
+						title: res.msg,
+						icon: 'none'
+					})
+					this.getDataList()
+				}else {
+					uni.showToast({
+						title: res.msg,
+						icon: 'none'
+					})
+				}
+			},
+			// 删除订单
+			async deleteOrder(id) {
+				let {data: res} = await this.$request.request({
+					url: '/v1/carTeam/deleteOrder',
+					method: 'post',
+					data: {
+						carTeamId: id
+					}
+				})
+				if(res.code == 1) {
+					uni.showToast({
+						title: res.msg,
+						icon: 'none'
+					})
+					this.getDataList()
+				}else {
+					uni.showToast({
+						title: res.msg,
+						icon: 'none'
+					})
+				}
+			},
+			
+			
+			
+			
 			// 后退
 			toBack() {
 				uni.navigateBack({
@@ -361,6 +633,85 @@
 						font-size: 24rpx;
 						color: #FFFFFF;
 						text-align: center;
+					}
+				}
+			}
+		}
+		.slot-content {
+			padding: 48rpx;
+			font-size: 30rpx;
+			text-align: center;
+			color: #606266;
+		}
+		// 车队宣传语
+		.text-box {
+			padding: 30rpx 30rpx 0;
+			font-size: 28rpx;
+			color: #666;
+		
+			.textarea {
+				position: relative;
+				display: block;
+				box-sizing: border-box;
+				padding: 20rpx 20rpx 60rpx;
+				border: 1rpx solid #eee;
+		
+				textarea {
+					font-size: 28rpx;
+					width: auto;
+				}
+			}
+		
+			.length {
+				position: absolute;
+				bottom: 20rpx;
+				right: 20rpx;
+			}
+		}
+		// 车队管理
+		.car-box {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 20rpx;
+		
+			.car-icon {
+				width: 50rpx;
+				height: 48rpx;
+				margin-right: 20rpx;
+		
+				image {
+					width: 100%;
+					height: 100%;
+				}
+			}
+		
+			.cb {
+				flex: 1;
+		
+				.cb-box {
+					display: flex;
+					align-items: center;
+					flex-wrap: wrap;
+					width: 100%;
+					// justify-content: space-between;
+		
+					.c-item {
+						width: calc((100% - 60rpx) / 4);
+						height: 88rpx;
+						border-radius: 50%;
+						display: flex;
+						align-items: center;
+						image {
+							width: 88rpx;
+							height: 88rpx;
+							border-radius: 50%;
+							// margin-right: 10rpx;
+						}
+					}
+		
+					.c-item:nth-child(n+5) {
+						margin-top: 20rpx;
 					}
 				}
 			}

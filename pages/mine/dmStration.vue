@@ -10,28 +10,28 @@
 				<navigator url="dmInfo"><image src="../../static/index/h-a.png" mode=""></image></navigator>
 			</view>
 		</view>
-		<view class="dm-list" v-for="item in 2">
+		<view class="dm-list" v-for="item in dmList">
 			<view class="list-item">
 				<view class="list-left">
-					<image src="../../static/mine/dm2.png" mode=""></image>
+					<image :src="item.avatar" mode=""></image>
 					<view class="left-text">
-						<view class="text-title">鲸落</view>
+						<view class="text-title">{{ item.username }}</view>
 						<view class="text-item">
 							<image src="../../static/mine/dm3.png" mode=""></image>
 							<view class="">
-								123456789123
+								{{ item.mobile }}
 							</view>
 						</view>
 						<view class="text-item">
 							<image src="../../static/mine/dm4.png" mode=""></image>
 							<view class="">
-								6
+								{{ item.presideNum }}
 							</view>
 						</view>
 					</view>
 				</view>
 				<view class="list-right">
-					<view class="right-but" @click="dismissal('替换成id')">
+					<view class="right-but" @click="dismissal(item.id)">
 						解聘
 					</view>
 					<view class="right-but" @click="active=item">
@@ -68,7 +68,7 @@
 		</view>
 		
 		
-		<u-modal v-model="show" :content="content" title="系统提醒" :mask-close-able="true" show-cancel-button @cancel="showConfirm">
+		<u-modal v-model="show" :content="content" title="系统提醒" :mask-close-able="true" show-cancel-button @confirm="showConfirm">
 			
 		</u-modal>
 	</view>
@@ -81,17 +81,54 @@
 				// 暂时先复制整个对象，有真正数据在改，点击统计展开隐藏
 				active:null,
 				show: false,
-				content: '确认解聘此DM账号么'
+				content: '确认解聘此DM账号么',
+				dmList: [],
+				dmId: ''
 			}
 		},
+		mounted() {
+			this.getDmList()
+		},
 		methods: {
+			// 获取dm数组
+			async getDmList() {
+				let {data: res} = await this.$request.request({
+					url: '/v1/dm/queryDmList',
+					method: 'post'
+				})
+				if(res.code == 1) {
+					this.dmList = res.data
+				}
+			},
 			// 解聘
 			dismissal(id) {
+				this.dmId = id
 				this.show = true
 			},
 			// 弹框点击确认操作
-			showConfirm() {
-				this.show = false
+			async showConfirm() {
+				let {data: res} = await this.$request.request({
+					url: '/v1/dm/dismissDm',
+					method: 'post',
+					data: {
+						id: this.dmId
+					}
+				})
+				if(res.code == 1) {
+					uni.showToast({
+						title: res.msg,
+						icon: 'none'
+					})
+					this.getDmList()
+					this.show = false
+				}else {
+					uni.showToast({
+						title: res.msg,
+						icon: 'none'
+					})
+					this.show = false
+				}
+				
 			},
 			// 后退
 			toBack() {

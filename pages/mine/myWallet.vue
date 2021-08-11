@@ -3,7 +3,7 @@
 		<view class="wallet-header" @click="goWithdr">
 			<image src="../../static/details/priceBg.png" mode=""></image>
 			<view class="header-text">
-				<view class="text-price">￥300.00</view>
+				<view class="text-price">￥{{ money }}</view>
 				<view class="text-wallet">钱包余额</view>
 			</view>
 		</view>
@@ -58,6 +58,7 @@
 	export default {
 		data() {
 			return {
+				money: '',
 				show: false,
 				dateTime: '2021年8月',
 				timeList: [
@@ -175,7 +176,25 @@
 				]
 			}
 		},
+		mounted() {
+			this.getMoney()
+		},
 		methods: {
+			// 获取余额
+			async getMoney() {
+				let {data: res} = await this.$request.request({
+					url: '/v1/user/account/queryUserAccount',
+					method: 'post'
+				})
+				if(res.code == 1) {
+					this.money = res.data.money
+				}else {
+					uni.showToast({
+						title: res.msg,
+						icon: 'none'
+					})
+				}
+			},
 			// 绑定银行卡按钮
 			onNavigationBarButtonTap(e) {
 				console.log('绑定银行卡')
@@ -187,7 +206,7 @@
 			// 跳转提现页面
 			goWithdr() {
 				uni.navigateTo({
-					url:'./withdrawal'
+					url:'./withdrawal?money=' + this.money
 				})
 			}
 		}
