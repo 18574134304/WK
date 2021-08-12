@@ -79,10 +79,12 @@
 				nowWeek: '',
 				show: false,
 				mode: 'date',
-				list: []
+				list: [],
+				userType: ''
 			}
 		},
 		mounted() {
+			this.userType = uni.getStorageSync('userType')
 			let nowDate = new Date()
 			let date = {
 				year: nowDate.getFullYear(),
@@ -91,7 +93,12 @@
 			}
 			this.systemTime = date.year + '-' + date.month + '-' + date.date
 			this.setNowTimes()
-			this.getData()
+			if(this.userType == '1') {
+				this.getData()
+			}
+			if(this.userType == '2') {
+				this.getDataDmList()
+			}
 		},
 		methods: {
 			// 编辑备注
@@ -132,10 +139,30 @@
 				}
 				
 			},
+			// 商户端数据
 			async getData() {
 				let {data: res} = await this.$request.request({
 					method: 'get',
 					url: '/v1/room/queryRoomCatTeamList',
+					data: {
+						date: this.systemTime
+						// date: '2021-8-9'
+					}
+				})
+				if(res.code == 1) {
+					this.list = res.data
+				}else {
+					uni.showToast({
+						title: '数据获取失败',
+						icon: 'none'
+					})
+				}
+			},
+			// DM端数据
+			async getDataDmList() {
+				let {data: res} = await this.$request.request({
+					method: 'get',
+					url: '/v1/room/queryRoomDMCatTeamList',
 					data: {
 						date: this.systemTime
 						// date: '2021-8-9'
@@ -155,7 +182,6 @@
 				let myDate = new Date()
 				// console.log(myDate)  
 				let wk = myDate.getDay()
-				console.log(wk)
 				let yy = String(myDate.getFullYear())
 				let mm = myDate.getMonth() + 1
 				// let dd = String(myDate.getDate() < 10 ? '0' + myDate.getDate() : myDate.getDate())
@@ -178,7 +204,12 @@
 				this.nowDate = e.year + '-' + e.month + '-' + e.day
 				this.systemTime = e.year + '-' + e.month + '-' + e.day
 				this.nowWeek = '星期' + ("日一二三四五六").charAt(new Date(this.systemTime).getDay())
-				this.getData()
+				if(this.userType == '1') {
+					this.getData()
+				}
+				if(this.userType == '2') {
+					this.getDataDmList()
+				}
 			}
 		}
 	}

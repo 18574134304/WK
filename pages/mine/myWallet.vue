@@ -18,7 +18,7 @@
 				</view>
 			</view>
 			<view class="detailde-bottom">
-				支出￥763.00 收入￥10000
+				支出￥{{ expenditure }} 收入￥{{ income }}
 			</view>
 		</view>
 		
@@ -27,25 +27,25 @@
 				<view class="list-left">
 					<view class="left-title">
 						<view class="title-left">{{ item.title }}</view>
-						<view class="title-right1" v-if="item.status == 1">
+						<view class="title-right1" v-if="item.status == '0'">
 							未审核
 						</view>
-						<view class="title-right2" v-if="item.status == 2">
+						<view class="title-right2" v-if="item.status == '2'">
 							已通过
 						</view>
-						<view class="title-right3" v-if="item.status == 3">
+						<view class="title-right3" v-if="item.status == '1'">
 							未通过
 						</view>
 					</view>
 					<view class="left-bottom">
-						{{ item.time }}
+						{{ item.createTime }}
 					</view>
 				</view>
 				<view class="list-right">
-					<text class="right-t1" v-if="item.numStatus == 1">+</text>
-					<text class="right-t2" v-if="item.numStatus == 2">-</text>
-					<text class="right-p1" v-if="item.numStatus == 1">￥{{ item.price }}</text>
-					<text class="right-p2" v-if="item.numStatus == 2">￥180.00</text>
+					<text class="right-t1" v-if="item.sign == '+'">+</text>
+					<text class="right-t2" v-if="item.sign == '-'">-</text>
+					<text class="right-p1" v-if="item.sign == '+'">￥{{ item.payTotalMoney }}</text>
+					<text class="right-p2" v-if="item.sign == '-'">￥{{ item.payTotalMoney }}</text>
 				</view>
 			</view>
 		</view>
@@ -61,6 +61,9 @@
 				money: '',
 				show: false,
 				dateTime: '2021年8月',
+				expenditure: '',  // 支出
+				income: '', // 收入
+				dateYearrMones: new Date().getFullYear() + '-' + (new Date().getMonth()+1),
 				timeList: [
 						[
 							{
@@ -178,6 +181,7 @@
 		},
 		mounted() {
 			this.getMoney()
+			this.getMoneyWalletList()
 		},
 		methods: {
 			// 获取余额
@@ -195,13 +199,31 @@
 					})
 				}
 			},
+			async getMoneyWalletList() {
+				let {data: res} = await this.$request.request({
+					url: '/v1/user/accountBill/queryBusiWalletBillList',
+					method: 'post',
+					data: {
+						date: this.dateYearrMones + '-' + '01'
+					}
+				})
+				this.income = res.data.income
+				this.expenditure = res.data.expenditure
+				this.list = res.data.page.records
+				console.log(this.list)
+			},
 			// 绑定银行卡按钮
 			onNavigationBarButtonTap(e) {
-				console.log('绑定银行卡')
+				uni.navigateTo({
+					url:'backCard'
+				})
 			},
 			// 选择时间
 			confirm(e) {
+				let index = e[1].label.indexOf('月')
 				this.dateTime = e[0].label + '年' + e[1].label
+				this.dateYearrMones = e[0].label + '-' + e[1].label.substring(0,index)
+				this.getMoneyWalletList()
 			},
 			// 跳转提现页面
 			goWithdr() {

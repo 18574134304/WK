@@ -317,6 +317,48 @@
 				"navigationBarBackgroundColor": "#FFFFFF"
 			}
 		},
+		// 订单消息页面
+		{
+			"path": "pages/mine/orderInfo",
+			"style": {
+				"navigationBarTitleText": "订单消息",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		// 绑定银行卡页面
+		{
+			"path": "pages/mine/backCard",
+			"style": {
+				"navigationBarTitleText": "绑定银行卡",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		// 个人信息页面
+		{
+			"path": "pages/mine/userInfo",
+			"style": {
+				"navigationBarTitleText": "个人资料",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		// 昵称编辑页面
+		{
+			"path": "pages/mine/editName",
+			"style": {
+				"navigationBarTitleText": "昵称编辑",
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"app-plus":{//app端特有属性
+					"titleNView":{
+						"buttons":[{
+							"color":"#09BCAF",
+							"fontSize":"28rpx",
+							"text":"完成"
+						}]
+					}
+				}
+			}
+		},
+		
 		//mine结束
 		
 		

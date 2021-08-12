@@ -117,6 +117,7 @@
 					})
 					if(res.code == 1) {
 						uni.setStorage({key:'token',data:res.data.token})
+						uni.setStorage({key:'userType',data:res.data.userType})
 						uni.setStorage({key: 'userInfo',data: res.data.userVo})
 						uni.switchTab({
 							url: '../index/index'
@@ -143,6 +144,7 @@
 					})
 					if(res.code == 1) {
 						uni.setStorage({key:'token',data:res.data.token})
+						uni.setStorage({key:'userType',data:res.data.userType})
 						uni.setStorage({key: 'userInfo',data: res.data.userVo})
 						uni.switchTab({
 							url: '../index/index'

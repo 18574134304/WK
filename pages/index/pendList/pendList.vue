@@ -8,7 +8,7 @@
 				<view class="msg">系统消息</view>
 				<view class="badge"> <view>99</view> </view>
 			</navigator>
-			<navigator hover-class="none" url="#" class="p-item" @click="$toast('暂未开放')">
+			<navigator hover-class="none" url="../../mine/orderInfo" class="p-item">
 				<view class="icon">
 					<image src="../../../static/index/pendList/o-icon.png"></image>
 				</view>

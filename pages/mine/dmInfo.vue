@@ -38,7 +38,7 @@
 					<view class="right-but" @click="dismissal('替换成id')" v-if="dmObject.hireFlag == 2">
 						雇佣
 					</view>
-					<view class="right-but" @click="active=item" v-if="dmObject.hireFlag == 3">
+					<view class="right-but" @click="dmAdd" v-if="dmObject.hireFlag == 3">
 						新建
 					</view>
 				</view>
@@ -66,6 +66,20 @@
 		mounted() {
 		},
 		methods: {
+			async dmAdd() {
+				let {data:res} = await this.$request.request({
+					url: '/v1/dm/addDm',
+					method: 'post',
+					data: {
+						mobile: this.mobile,
+						username: this.mobile
+					}
+				})
+				uni.showToast({
+					title: res.msg,
+					icon: 'none'
+				})
+			},
 			async getList() {
 				if(this.mobile == '') {
 					uni.showToast({

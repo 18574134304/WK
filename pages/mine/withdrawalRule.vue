@@ -1,12 +1,35 @@
 <template>
 	<view class="withdrawalRule">
 		<view class="withdrawalRule-con">
-			后台编辑提现规则后台编辑提现规则后台编辑提现规则
+			{{ ruleText }}
 		</view>
 	</view>
 </template>
 
 <script>
+	export default {
+		data() {
+			return {
+				ruleText: ''
+			}
+		},
+		mounted() {
+			this.getRule()
+		},
+		methods: {
+			async getRule() {
+				let {data: res} = await this.$request.request({
+					url: '/v1/config/config/queryGzxy',
+					method: 'get',
+					data:{
+						configName: 'withdrawRule'
+					}
+				})
+				console.log(res)
+				this.ruleText = res.data.configValue
+			}
+		}
+	}
 </script>
 
 <style lang="scss" scoped>
