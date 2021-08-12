@@ -109,5 +109,14 @@
     },
     "uniStatistics" : {
         "enable" : false
+    },
+    "h5" : {
+        "sdkConfigs" : {
+            "maps" : {
+                "qqmap" : {
+                    "key" : "ZE4BZ-J4W6W-I3LR6-RKIBP-XGIIH-E2F4U"
+                }
+            }
+        }
     }
 }

@@ -89,8 +89,8 @@
 	export default {
 		data() {
 			return {
-				show:false,
-				content:'车队发布成功',
+				show: false,
+				content: '车队发布成功',
 				home: '',
 				date: '',
 				time: '',
@@ -100,15 +100,7 @@
 				People: '',
 				eTime: '',
 				price: '',
-				homeList: [{
-						value: '1',
-						label: '房间1'
-					},
-					{
-						value: '2',
-						label: '房间2'
-					}
-				],
+				homeList: [],
 				homeFlag: false,
 				dateList: [],
 				dateFlag: false,
@@ -116,29 +108,9 @@
 				timeFlag: false,
 				DMList: [],
 				DMFlag: false,
-				PeopleList: [{
-						value: '1',
-						label: '1人'
-					},
-					{
-						value: '2',
-						label: '2人'
-					}
-				],
+				PeopleList: [],
 				PeopleFlag: false,
-				eTimeList: [{
-						value: '1',
-						label: '1小时'
-					},
-					{
-						value: '2',
-						label: '2小时'
-					},
-					{
-						value: '3',
-						label: '3小时'
-					}
-				],
+				eTimeList: [],
 				eTimeFlag: false,
 				DateParams: {
 					year: true,
@@ -210,12 +182,57 @@
 				]
 			}
 		},
+		onLoad() {
+			for (let i = 1; i <= 24; i++) {
+				let obj = {
+					value: i,
+					label: i + '小时'
+				}
+				this.eTimeList.push(obj)
+			}
+			for (let i = 1; i <= 24; i++) {
+				let obj = {
+					value: i,
+					label: i + '人'
+				}
+				this.PeopleList.push(obj)
+			}
+		},
+		onLoad() {
+			this.queryHomeList()
+			this.queryDMList()
+		},
 		methods: {
+			// 查询房间列表
+			async queryHomeList(){
+				this.homeList = []
+				const {data:res} = await this.$request.request({
+					url:"/v1/room/queryRoomList",
+					method:"POST"
+				})
+				if(res.code==1){
+					let dn = res.data
+					let obj = {}
+					dn.forEach(item=>{
+						obj ={value:item.id,label:item.roomName}
+						this.homeList.push(obj)
+					})
+					console.log(this.homeList)
+				}
+			},
+			// 店铺dm列表
+			async queryDMList(){
+				const {data:res} = await this.$request.request({
+					url:"/v1/dm/queryDmList",
+					method:"POST"
+				})
+				console.log(res)
+			},
 			// 显示相应的picker
 			showPicker(name) {
 				if (name == 'juben') {
 					return uni.navigateTo({
-						url: "./checkPlay"
+						url: "../scriptDetails/playManage?flag=1"
 					})
 				}
 				return eval(`this.${name}Flag=true`)

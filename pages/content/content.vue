@@ -30,7 +30,7 @@
 
 		<!-- 车队列表 -->
 		<view class="list">
-			<list-item :num='2' :show2="show2" :pShow="pShow" @close="pShow=false" @confirm="show2=false">
+			<list-item :num='2' :show2="show2" :pShow="pShow" @close="pShow=false" @confirm="show2=false" @goDetail="goDetail">
 				<view id="btn-group" slot="btn" v-if="active==1" :key="active">
 					<view class="btn" @click="pShow=true">解散</view>
 					<view class="btn" @click="show2=true">确认完成</view>
@@ -100,6 +100,12 @@
 			change(e) {
 				this.systemTime = e.result
 				this.nowWeek = e.week
+			},
+			// 查看详情
+			goDetail(){
+				uni.navigateTo({
+					url:"../scriptDetails/details"
+				})
 			}
 		}
 	}

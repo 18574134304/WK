@@ -1,19 +1,28 @@
 <template>
-	<view id="shop-mobile">
+	<view id="shop-mobile" v-if="info">
 		<view class="content">
 			<view class="item">
 				<text class="lable">门店电话</text>
-				<input type="text" value="" placeholder="请输入门店电话" />
+				<input type="text" :value="info.storeMobile" placeholder="暂无门店电话,请添加" disabled />
 			</view>
 			<navigator class="add-mobile" url="./addMobile" hover-class="none">添加电话</navigator>
 		</view>
-		<view class="save">
+		<view class="save" @click="back">
 			<view>保存</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import shopinfo from "@/mixins/shopInfo.js"
+	export default {
+		mixins: [shopinfo],
+		data(){
+			return{
+				info:null
+			}
+		}
+	}
 </script>
 
 <style lang="scss" scoped>
@@ -36,18 +45,21 @@
 				height: 104rpx;
 				padding: 0 30rpx;
 				border-bottom: 1rpx solid #eee;
+
 				.lable {
 					font-size: 28rpx;
 					color: #333333;
 					font-weight: 500;
 				}
-				input{
+
+				input {
 					margin-left: 30rpx;
 					font-size: 28rpx;
 					flex: 1;
 				}
 			}
-			.add-mobile{
+
+			.add-mobile {
 				padding-left: 30rpx;
 				font-size: 24rpx;
 				color: #09BCAF;

@@ -1,5 +1,5 @@
 <template>
-	<view id="shop-time">
+	<view id="shop-time" v-if="info">
 		<view class="time">
 			<text class="label">营业时间</text>
 			<view class="center">
@@ -15,14 +15,16 @@
 		<!-- 结束时间 -->
 		<u-picker confirm-color="#09BCAF" @confirm="endChange" v-model="endShow" title="请选择结束时间" mode="time"
 			:params="TimeParams"></u-picker>
-		<view class="save">
+		<view class="save" @click="submit">
 			<view>保存</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import shopinfo from "@/mixins/shopInfo.js"
 	export default {
+		mixins:[shopinfo],
 		data() {
 			return {
 				startTime: null,
@@ -38,16 +40,34 @@
 					hour: true,
 					minute: true,
 					second: false
-				}
+				},
+				info:null
 			}
 		},
-
+		watch:{
+			info:{
+				handler(newVal){
+					this.startTime = this.info.openStartTime
+					this.endTime = this.info.openEndTime
+				},
+				deep:true
+			}
+		},
 		methods: {
 			startChange(time) {
 				this.startTime = time.hour + ':' + time.minute
 			},
 			endChange(time){
 				this.endTime = time.hour + ':' + time.minute
+			},
+			async submit(){
+				if(!this.startTime) return this.$toast("请选择开始时间")
+				if(!this.endTime) return this.$toast("请选择结束时间")
+				let data = {
+					openStartTime:this.startTime,
+					openEndTime:this.endTime
+				}
+				this.save(data)
 			}
 		}
 

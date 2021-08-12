@@ -16,7 +16,24 @@
 	export default {
 		data() {
 			return {
-
+				// 系统消息列表
+				list:[]
+			}
+		},
+		onLoad() {
+			this.query()
+		},
+		methods:{
+			async query(){
+				const {data:res} = await this.$request.request({
+					url:"/v1/message/queryMessageList",
+					method:"post",
+					data:{
+						pageNo:1,
+						pageSize:1000
+					}
+				})
+				console.log(res)
 			}
 		}
 	}

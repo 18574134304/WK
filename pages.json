@@ -12,18 +12,18 @@
 				}
 			}
 		},
-		// 忘记密码
+		// 首页
 		{
-			"path": "pages/login/forget-password",
+			"path": "pages/index/index",
 			"style": {
 				"app-plus": {
 					"titleNView": false
 				}
 			}
 		},
-		// 首页
+		// 忘记密码
 		{
-			"path": "pages/index/index",
+			"path": "pages/login/forget-password",
 			"style": {
 				"app-plus": {
 					"titleNView": false
@@ -177,7 +177,8 @@
 			"style": {
 				"app-plus": {
 					"titleNView": false
-				}
+				},
+				"onReachBottomDistance": 150
 			}
 		},
 		// 添加剧本
@@ -185,7 +186,7 @@
 			"path": "pages/scriptDetails/tags",
 			"style": {
 				"navigationBarBackgroundColor": "#FFFFFF",
-				"navigationBarTitleText": "添加剧本"
+				"navigationBarTitleText": "选择标签"
 			}
 		},
 		// 剧本标签
@@ -193,7 +194,7 @@
 			"path": "pages/scriptDetails/addPlay",
 			"style": {
 				"navigationBarBackgroundColor": "#FFFFFF",
-				"navigationBarTitleText": "选择标签"
+				"navigationBarTitleText": "添加剧本"
 			}
 		},
 		// 首页中页面 结束

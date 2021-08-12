@@ -1,20 +1,20 @@
 <template>
 	<view id="room-manage">
 		<view class="content">
-			<view class="item" v-for="item in 2">
-				<text class="lable" @click="aShopShow=true">房间名字</text>
-				<image @click="delFlag=true" src="@/static/index/shopManger/del-icon.png"></image>
+			<view class="item" v-for="item in list" :key="item.id">
+				<text class="lable" @click="showModel('编辑剧本',item.id,item.roomName)">{{item.roomName}}</text>
+				<image @click="showDel(item.id)" src="@/static/index/shopManger/del-icon.png"></image>
 			</view>
 		</view>
 		<view class="save">
-			<view @click="aShopShow=true">添加房间</view>
+			<view @click="showModel('添加房间')">添加房间</view>
 		</view>
 		<!-- 删除房间弹框 -->
 		<!-- 锁定车位弹框 -->
 		<u-modal v-model="delFlag" :show-title="false"
-			:show-cancel-button="true" confirm-color="#09BCAF" content="是否确认删除该房间？"></u-modal>
+			:show-cancel-button="true" confirm-color="#09BCAF" content="是否确认删除该房间？" @confirm="delConfirm"></u-modal>
 		<!-- 添加房间弹窗 -->
-		<u-modal v-model="aShopShow" confirm-text="保存" cancel-text	="返回" title="房间管理" :show-cancel-button="true" confirm-color="#09BCAF">
+		<u-modal @confirm="addConfirm" @cancel="addCancel" v-model="aShopShow" confirm-text="保存" cancel-text	="返回" :title="title" :show-cancel-button="true" confirm-color="#09BCAF">
 			<view class="text-box">
 				<view class="title">房间名称</view>
 				<view class="textarea">
@@ -29,9 +29,96 @@
 	export default{
 		data(){
 			return{
+				title:"添加房间",
 				delFlag:false,
 				aShopShow:false,
-				shopName:''
+				shopName:'',
+				//编辑剧本id
+				nId:null,
+				list:[],
+				delId:null
+			}
+		},
+		onLoad() {
+			this.queryHomeList()
+		},
+		methods:{
+			showDel(id){
+				this.delId = id
+				this.delFlag = true
+			},
+			async delConfirm(){
+				const {data:res} = await this.$request.request({
+					url:"/v1/room/deleteRoom",
+					method:"POST",
+					data:{
+						roomId:this.delId
+					}
+				})
+				if(res.code==1){
+					this.$toast("删除成功")
+				}else{
+					this.$toast("删除失败")
+				}
+				this.queryHomeList()
+			},
+			// 查询房间列表
+			async queryHomeList(){
+				this.homeList = []
+				const {data:res} = await this.$request.request({
+					url:"/v1/room/queryRoomList",
+					method:"POST"
+				})
+				if(res.code==1){
+					this.list = res.data
+					console.log(this.list)
+				}
+			},
+			// 展示房间框
+			showModel(title,id=null,name=''){
+				this.title = title
+				this.nId = id
+				this.aShopShow = true
+				this.shopName = name
+			},
+			// 取消添加 or 编辑
+			addCancel(){
+				this.aShopShow = false
+				setTimeout(_=>{
+					this.nId = null
+					this.shopName = ''
+				},300)
+			},
+			// 添加 or 编辑
+			async addConfirm(){
+				if(!this.shopName.trim()) return this.$toast("名称不能为空")
+				let data = {
+					roomName:this.shopName
+				}
+				// 编辑
+				if(this.nId){
+					data.roomId = this.nId
+					const {data:res} = await this.$request.request({
+						url:"/v1/room/editRoom",
+						method:"POST",
+						data
+					})
+					if(res.code==1){
+						this.$toast("修改成功")
+					}
+					this.queryHomeList()
+				}else{
+					// 添加
+					const {data:res} = await this.$request.request({
+						url:"/v1/room/addRoom",
+						method:"POST",
+						data
+					})
+					if(res.code==1){
+						this.$toast("添加成功")
+					}
+					this.queryHomeList()
+				}
 			}
 		}
 	}
