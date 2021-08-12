@@ -3,16 +3,43 @@
 		<view class="content">
 			<view class="item">
 				<text class="lable">门店名称</text>
-				<input type="text" value="" placeholder="请输入门店名称" />
+				<input type="text" v-model="name" placeholder="请输入门店名称"/>
 			</view>
 		</view>
-		<view class="save">
+		<view class="save" @click="submit">
 			<view>保存</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import shopinfo from "@/mixins/shopInfo.js"
+	export default {
+		mixins:[shopinfo],
+		data() {
+			return {
+				name: '',
+				info:null
+			}
+		},
+		methods: {
+			submit() {
+				if (!this.name.trim()) return this.$toast("门店名不能为空")
+				this.save({storeName:this.name})
+			}
+		},
+
+		watch: {
+			info: {
+				handler(newVal) {
+					if (newVal.storeName) {
+						this.name = newVal.storeName
+					}
+				},
+				deep: true
+			}
+		}
+	}
 </script>
 
 <style lang="scss" scoped>
@@ -35,12 +62,14 @@
 				height: 104rpx;
 				padding: 0 30rpx;
 				border-bottom: 1rpx solid #eee;
+
 				.lable {
 					font-size: 28rpx;
 					color: #333333;
 					font-weight: 500;
 				}
-				input{
+
+				input {
 					margin-left: 30rpx;
 					font-size: 28rpx;
 					flex: 1;

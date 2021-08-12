@@ -1,24 +1,65 @@
 <template>
-	<view id="add-mobile">
+	<view id="add-mobile" v-if="info">
 		<view class="content">
 			<view class="item">
 				<text class="lable">门店电话</text>
-				<input type="text" value="" placeholder="请输入门店电话" />
-				<image src="@/static/index/shopManger/del-icon.png"></image>
+				<input type="text" v-model="v1" placeholder="请输入门店电话" />
+				<image src="@/static/index/shopManger/del-icon.png" @click="v1=''"></image>
 			</view>
 			<view class="item">
 				<text class="lable"></text>
-				<input type="text" value="" placeholder="请输入门店电话" />
-				<image src="@/static/index/shopManger/del-icon.png"></image>
+				<input type="text" v-model="v2" placeholder="请输入门店电话" />
+				<image src="@/static/index/shopManger/del-icon.png" @click="v2=''"></image>
 			</view>
 		</view>
-		<view class="save">
+		<view class="save" @click="submit">
 			<view>保存</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import shopinfo from "@/mixins/shopInfo.js"
+	export default {
+		mixins: [shopinfo],
+		data() {
+			return {
+				v1: '',
+				v2: '',
+				info: null
+			}
+		},
+		methods: {
+			submit(){
+				let storeMobile
+				if(this.v1&&this.v2){
+					storeMobile = this.v1+','+this.v2
+				}else{
+					if(this.v1) storeMobile = this.v1
+					if(this.v2) storeMobile = this.v2
+				}
+				let data = {
+					storeMobile
+				}
+				this.save(data)
+			}
+		},
+
+		watch: {
+			info: {
+				handler(newVal) {
+					if (newVal.storeMobile) {
+						let mobile = newVal.storeMobile.split()
+						this.v1 = mobile[0]
+						if (mobile.length > 1) {
+							this.v2 = mobile[1]
+						}
+					}
+				},
+				deep: true
+			}
+		}
+	}
 </script>
 
 <style lang="scss" scoped>
@@ -41,18 +82,21 @@
 				height: 104rpx;
 				padding: 0 30rpx;
 				border-bottom: 1rpx solid #eee;
+
 				.lable {
 					font-size: 28rpx;
 					color: #333333;
 					font-weight: 500;
 					width: 120rpx;
 				}
-				input{
+
+				input {
 					margin-left: 30rpx;
 					font-size: 28rpx;
 					flex: 1;
 				}
-				image{
+
+				image {
 					width: 32rpx;
 					height: 32rpx;
 				}

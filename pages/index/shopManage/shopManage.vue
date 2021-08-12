@@ -9,13 +9,21 @@
 			</view>
 		</view>
 		<view class="content">
-			<navigator hover-class="none" url="children/shopInfo" class="card">
+			<navigator hover-class="none" url="children/shopInfo" class="setinfo" v-if="!storeActiveInfo.msg">
+				<view class="label">
+					<image src='../../../static/index/shopManger/i1.png'></image>
+					<text>设置门店信息</text>
+				</view>
+				<image class="r-icon" src="../../../static/index/shopManger/r-icon.png"></image>
+			</navigator>
+			<navigator hover-class="none" url="children/shopInfo" class="card" v-else>
 				<view class="shop-avatar">
-					<image src="../../../static/index/shopManger/avatar.png"></image>
+					<!-- <image src="../../../static/index/shopManger/avatar.png"></image> -->
+					<image :src="storeActiveInfo.img" style="width: 246rpx;height:194rpx;"></image>
 				</view>
 				<view class="msg">
 					<view>
-						店铺活动这是店铺活动这是店铺活动这是店铺活动这是店铺活这是店铺活动这是店铺活动这是店这是店铺活动这是店铺活动这是店铺活动
+						{{storeActiveInfo.msg}}
 					</view>
 				</view>
 			</navigator>
@@ -36,36 +44,69 @@
 </template>
 
 <script>
-	export default{
-		data(){
+	export default {
+		data() {
 			return {
-				list:[
-					{
-						label:'门店名称',
-						link:'children/shopName',
-						msg:'MINI沉浸式剧本推理社'
+				storeActiveInfo: {
+					img: '',
+					msg: ''
+				},
+				list: [{
+						label: '门店名称',
+						link: 'children/shopName',
+						msg: ''
 					},
 					{
-						label:'门店电话',
-						link:'children/shopMobile/shopMobile',
-						msg:'15000000000'
+						label: '门店电话',
+						link: 'children/shopMobile/shopMobile',
+						msg: '暂无'
 					},
 					{
-						label:'门店地址',
-						link:'children/shopAddress',
-						msg:'北京市朝阳区宏泰西街望北京市朝阳区宏泰西街望啊啊啊'
+						label: '门店地址',
+						link: 'children/shopAddress',
+						msg: '暂无'
 					},
 					{
-						label:'营业时间',
-						link:'children/shopTime',
-						msg:'8:00-18:00'
+						label: '营业时间',
+						link: 'children/shopTime',
+						msg: '暂无'
 					},
 					{
-						label:'房间管理',
-						link:'children/roomManage',
-						msg:'房间管理'
+						label: '房间管理',
+						link: 'children/roomManage',
+						msg: '房间管理'
 					},
 				]
+			}
+		},
+		onShow() {
+			this.queryInfo()
+		},
+		methods: {
+			async queryInfo() {
+				// uni.showLoading()
+				const {
+					data: res
+				} = await this.$request.request({
+					url: "/v1/store/checkStore",
+					method: "post"
+				})
+				// console.log(res)
+				if (res.code) {
+					let dn = res.data
+					this.list[0].msg = dn.storeName
+					this.list[1].msg = dn.storeMobile
+					if (dn.storeDetailAddress) {
+						this.list[2].msg = dn.storeDetailAddress
+					}
+					if (dn.openStartTime && dn.openEndTime) {
+						this.list[3].msg = dn.openStartTime + '-' + dn.openEndTime
+					}
+					// this.storeActiveInfo.img = dn.storeActiveImg
+					this.storeActiveInfo.img = dn.storeBanner.split(',')[0]
+					this.storeActiveInfo.msg = dn.storeActiveInfo
+				}
+				// uni.hideLoading()
 			}
 		}
 	}
@@ -75,6 +116,38 @@
 	#shopManage {
 		width: 100vw;
 		height: 100vh;
+
+		.setinfo {
+			box-sizing: border-box;
+			width: 100%;
+			height: 100rpx;
+			padding: 0 20rpx;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			background-color: #fff;
+			border-radius: 16rpx;
+			.label {
+				display: flex;
+
+				image {
+					margin-right: 10rpx;
+					width: 32rpx;
+					height: 32rpx;
+				}
+
+				text {
+					font-size: 28rpx;
+					color: #333;
+					font-weight: 500;
+				}
+			}
+
+			.r-icon {
+				width: 24rpx;
+				height: 24rpx;
+			}
+		}
 
 		.header {
 			width: 100%;
@@ -117,6 +190,10 @@
 				background-color: #fff;
 
 				.shop-avatar {
+					    display: flex;
+					    flex-direction: column;
+					    justify-content: center;
+					    align-items: center;
 					width: 297rpx;
 					height: 235rpx;
 					flex-shrink: 0;
@@ -124,6 +201,7 @@
 					image {
 						width: 100%;
 						height: 100%;
+						border-radius: 16rpx;
 					}
 				}
 
@@ -135,6 +213,7 @@
 					color: #333;
 					font-size: 28rpx;
 					overflow: hidden;
+
 					view {
 						display: -webkit-box;
 						-webkit-box-orient: vertical;
@@ -144,47 +223,54 @@
 					}
 				}
 			}
-		
-			.c-list{
+
+			.c-list {
 				padding: 0 20rpx;
 				margin-top: 26rpx;
 				height: 510rpx;
 				background-color: #fff;
-				.c-item{
+
+				.c-item {
 					display: flex;
 					align-items: center;
 					justify-content: space-between;
 					width: 100%;
 					height: 101rpx;
 					border-bottom: 1rpx solid #eee;
-					.label{
+
+					.label {
 						display: flex;
 						align-items: center;
-						image{
+
+						image {
 							width: 32rpx;
-							height: 32rpx;	
+							height: 32rpx;
 							margin-right: 10rpx;
 							flex-shrink: 0;
 						}
-						text{
+
+						text {
 							font-size: 28rpx;
 							color: #333;
 							font-weight: 500;
 						}
 					}
-					.c-msg{
+
+					.c-msg {
 						width: 0;
 						flex: 1;
 						display: flex;
 						align-items: center;
 						justify-content: flex-end;
-						.tip{
+
+						.tip {
 							font-size: 28rpx;
 							color: #666;
 							font-weight: 400;
 							max-width: 80%;
 						}
-						image{
+
+						image {
 							width: 24rpx;
 							height: 24rpx;
 							flex-shrink: 0;

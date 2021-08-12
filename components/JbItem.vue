@@ -1,8 +1,8 @@
 <template>
 	<view class="box">
-		<view class="j-item" v-for="item in 7" @click="goDetail">
+		<view class="j-item" v-for="item in list" @click="goDetail(item)" :key="item.id">
 			<view class="avatar">
-				<image src="@/static/index/checkPlay/jimg.png" mode=""></image>
+				<image :src="item.scenImg"></image>
 			</view>
 			<view class="info">
 				<view class="t-tile">
@@ -12,33 +12,25 @@
 							<view class="text">热门</view>
 						</view>
 						<text class="name-text">
-							前男友的100种
+							{{item.scenName}}
 						</text>
 					</view>
 					<view class="tags">
-						<view class="t-item">文艺青年</view>
-						<view class="t-item">青年</view>
-						<view class="t-item">艺青年</view>
-						<view class="t-item">艺青年</view>
-						<view class="t-item">文艺年</view>
-						<view class="t-item">文年</view>
-						<view class="t-item">文艺青年</view>
-						<view class="t-item">文年</view>
-						<view class="t-item">文年啊</view>
-						<view class="t-item">文艺青年</view>
+						<view class="t-item" :key="i" v-for="(item1,i) in item.tagNames.split(',')">{{item1}}</view>
 					</view>
 				</view>
 			</view>
-				<slot name="btn-Group"></slot>
+				<slot name="btn-Group" :row="item"></slot>
 		</view>
 	</view>
 </template>
 
 <script>
 	export default {
+		props:['list'],
 		methods:{
-			goDetail(){
-				this.$emit("goDetail")
+			goDetail(item){
+				this.$emit("goDetail",item)
 			}
 		}
 	}

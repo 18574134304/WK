@@ -1,105 +1,130 @@
 <template>
 	<view id="tags">
-		<view class="p-cate" v-for="(item,index) in tagList" :key="index">
-			<view class="p-title">题材</view>
-			<view class="cate-list">
-				<view class="c-item" :class="{'p-active':tagActive(index,item1.id)}" :key="index1"
-					v-for="(item1,index1) in item" @click="tagClick(index,item1.id)">{{item1.name}}</view>
-			</view>
+		<view class="p-cate" v-for="(item,index) in tagList" :key="item.id">
+			<template v-if="item.list.length">
+				<view class="p-title">{{item.tagName}}</view>
+				<view class="cate-list">
+					<view class="c-item" :class="{'p-active':tagActive(index,item1.id)}" :key="item1.id"
+						v-for="(item1,index1) in item.list" @click="tagClick(index,item1.id,item.isMany,item1.tagName)">
+						{{item1.tagName}}
+					</view>
+				</view>
+			</template>
 		</view>
 
-		<view class="save">
+		<view class="save" @click="save">
 			<view>完成</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		data() {
 			return {
-
-				tagList: [
-					[{
-						name: '恐怖',
-						id: 1
-					}],
-					[{
-							name: '恐怖',
-							id: 1
-						},
-						{
-							name: '恐怖',
-							id: 2
-						},
-						{
-							name: '恐怖',
-							id: 3
-						},
-						{
-							name: '恐怖',
-							id: 4
-						},
-						{
-							name: '恐怖',
-							id: 5
-						}
-					],
-					[{
-							name: '恐怖',
-							id: 1
-						},
-						{
-							name: '恐怖',
-							id: 2
-						},
-						{
-							name: '恐怖',
-							id: 3
-						},
-						{
-							name: '恐怖',
-							id: 4
-						},
-						{
-							name: '恐怖',
-							id: 5
-						},
-						{
-							name: '恐怖',
-							id: 6
-						},
-						{
-							name: '恐怖',
-							id: 7
-						}
-					],
-				],
-
+				tagList: [],
 				tagIds: [],
+				tagNames: []
 			}
+		},
+		onLoad() {
+			this.queryTags()
 		},
 		methods: {
 			// 标签点击事件
-			tagClick(index, id) {
+			tagClick(index, id, flag, name) {
 				if (this.tagIds[index]) {
+					console.log(id)
 					if (this.tagIds[index].includes(id)) {
+						console.log('ok', this.tagIds[index])
 						this.tagIds[index].splice(this.tagIds[index].indexOf(id), 1)
+						console.log(this.tagIds)
 					} else {
+						console.log('no')
 						let arr = this.tagIds[index]
-						arr.push(id)
-						this.$set(this.tagIds, index, arr)
+						if (flag == 1) {
+							arr.push(id)
+							this.$set(this.tagIds, index, arr)
+						} else {
+							arr = [id]
+							this.$set(this.tagIds, index, arr)
+						}
 					}
 
 				} else {
 					this.tagIds[index] = []
 					this.$set(this.tagIds, index, [id])
 				}
-				console.log(index, id, this.tagIds)
+				if (this.tagNames.includes(name)) {
+					this.tagNames.splice(this.tagNames.indexOf(name), 1)
+				} else {
+					this.tagNames.push(name)
+				}
+			},
+			// 查询标签数据
+			async queryTags() {
+				const {
+					data: res
+				} = await this.$request.request({
+					url: '/v1/tag/queryTagListByTagTypeSon',
+					method: 'post',
+					data: {
+						tagType: 2
+					}
+				})
+				this.tagList = res.data
+				// 回显标签
+				if (this.tIds) {
+					let ids = this.tIds.split(',')
+					this.tagNames = this.tNames.split(',')
+					for (let i = 0; i < ids.length; i++) {
+						try {
+							this.tagList.forEach((item, index) => {
+								item.list.map(item1 => {
+									if (item1.id == ids[i]) {
+										if (!this.tagIds[index]) {
+											this.tagIds[index] = []
+										}
+										let arr = this.tagIds[index]
+										arr.push(item1.id)
+										this.$set(this.tagIds, index, arr)
+										throw "ok"
+									}
+								})
+							})
+						} catch (e) {}
+					}
+				}
+
+			},
+			save() {
+				let idArr = []
+				for (let i = 0; i < this.tagIds.length; i++) {
+					if (this.tagIds[i] && this.tagIds[i].length) {
+						idArr.push(this.tagIds[i].join())
+					}
+				}
+				let obj = {
+					tagIds: idArr.join(),
+					tagNames: this.tagNames.join()
+				}
+				this.$store.commit("setTags", obj)
+				this.back()
 			}
 		},
+		destroyed() {
+			// console.log('销毁了')
+			// this.$store.commit("setAlive",[])
+			// this.$store.commit("setTags",{tagIds:'',tagNames:''})
+		},
 		computed: {
-
+			...mapState({
+				tIds: "tagIds",
+				tNames: "tagNames"
+			}),
 			tagActive() {
 				return (index, id) => {
 					if (this.tagIds[index] && this.tagIds[index].includes(id)) {
@@ -116,9 +141,8 @@
 <style lang="scss" scoped>
 	#tags {
 		width: 100vw;
-		height: calc(100vh - 88rpx);
 		background-color: #fff;
-		padding: 20rpx 30rpx;
+		padding: 20rpx 30rpx 120rpx;
 
 		.p-cate {
 			.p-title {
@@ -154,7 +178,7 @@
 		}
 
 		.save {
-			position: absolute;
+			position: fixed;
 			bottom: 30rpx;
 			left: 0;
 			width: 100%;

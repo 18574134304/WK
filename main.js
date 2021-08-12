@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import App from './App'
 import request from '@/common/request.js'
+import store from 'store/store.js'
+Vue.use(store);
 
 Vue.config.productionTip = false
 App.mpType = 'app'
@@ -22,12 +24,13 @@ function toast(title, icon = "none") {
 	})
 }
 Vue.prototype.$toast = toast
-
+Vue.prototype.$baseUrl = 'http://47.94.232.145:8082/zhongben-app'
 Vue.mixin({
 	methods
 })
 
 const app = new Vue({
-	...App
+	...App,
+	store
 })
 app.$mount()

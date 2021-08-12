@@ -26,11 +26,11 @@
 			<!-- 消费信息 -->
 			<view class="card">
 				<view class="c-item">
-					<text class="t1">1</text>
+					<text class="t1">{{shopInfo.countNum ? shopInfo.countNum : 0}}</text>
 					<text class="t2">当日开本数量</text>
 				</view>
 				<view class="c-item">
-					<text class="t1">¥560</text>
+					<text class="t1">¥{{shopInfo.countMoney ? shopInfo.countMoney : 0}}</text>
 					<text class="t2">当日到店消费金额</text>
 				</view>
 			</view>
@@ -38,7 +38,8 @@
 			<tab-box @tabClick="tabClick" :active="active"></tab-box>
 			<!-- 列表 -->
 			<view class="list">
-				<list-item :num='5' :show2="show2" :pShow="pShow" @close="pShow=false" @confirm="show2=false">
+				<list-item :num='5' :show2="show2" :pShow="pShow" @close="pShow=false" @confirm="show2=false"
+					@goDetail="goDetail">
 					<view id="btn-group" slot="btn" v-if="active==1" :key="active">
 						<view class="btn" @click="pShow=true">解散</view>
 						<view class="btn" @click="show2=true">确认完成</view>
@@ -59,10 +60,11 @@
 		},
 		data() {
 			return {
+				shopInfo: {},
 				// 确认弹窗
-				show2:false,
+				show2: false,
 				// 解散弹窗
-				pShow:false,
+				pShow: false,
 				// 分类选中
 				active: 0,
 				htList: [{
@@ -84,10 +86,42 @@
 				]
 			}
 		},
+		onLoad() {
+			this.queryInfo()
+			this.queryList()
+		},
 		methods: {
 			// 车队分类点击事件
 			tabClick(index) {
 				this.active = index
+			},
+			// 查询开本数量金额
+			async queryInfo() {
+				const {
+					data: res
+				} = await this.$request.request({
+					url: '/v1/store/getMoney',
+					method: "post"
+				})
+				console.log(res)
+				this.shopInfo = res.data
+			},
+			// 查询车队列表
+			async queryList() {
+				let date = new Date()
+				let day = date.toLocaleDateString().replace(/\//g, "-")
+				let data = {
+					carTeamType: this.active + 1,
+					date: '2021-08-12'
+				}
+				const {
+					data: res
+				} = await this.$request.request({
+					url: "/v1/carTeam/queryCarTeamByStatus",
+					method: "POST",
+					data
+				})
+				console.log(res)
 			}
 		}
 	}
@@ -96,6 +130,7 @@
 <style lang="scss" scoped>
 	.index {
 		background: #F8F8F8;
+
 		.header {
 			box-sizing: border-box;
 			width: 100%;
