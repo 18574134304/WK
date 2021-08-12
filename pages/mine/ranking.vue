@@ -13,35 +13,34 @@
 			</view>
 		</view>
 		
-		<view class="ranking-treen" v-if="title == '月榜'">
+		<view class="ranking-treen">
 			<view class="treen-left">
 				<image class="icon1" src="../../static/mine/tow.png" mode=""></image>
-				<image class="titleImg" src="../../static/mine/wei.png" mode=""></image>
-				<view class="title-top">李晨</view>
-				<view class="title-center">金额：10000</view>
-				<view class="title-bottom">场次：60</view>
+				<image class="titleImg" :src="towObj.avatar" mode=""></image>
+				<view class="title-top">{{ towObj.username }}</view>
+				<view class="title-center">金额：{{ towObj.moneyNum }}</view>
+				<view class="title-bottom">场次：{{ towObj.sessionNum }}</view>
 			</view>
 			<view class="treen-center">
 				<image class="icon1" src="../../static/mine/one.png" mode=""></image>
-				<image class="titleImg" src="../../static/mine/wei.png" mode=""></image>
-				<view class="title-top">李晨</view>
-				<view class="title-center">金额：10000</view>
-				<view class="title-bottom">场次：60</view>
+				<image class="titleImg" :src="oneObj.avatar" mode=""></image>
+				<view class="title-top">{{ oneObj.username }}</view>
+				<view class="title-center">金额：{{ oneObj.moneyNum }}</view>
+				<view class="title-bottom">场次：{{ oneObj.sessionNum }}</view>
 			</view>
 			<view class="treen-right">
 				<image class="icon1" src="../../static/mine/treen.png" mode=""></image>
-				<image class="titleImg" src="../../static/mine/wei.png" mode=""></image>
-				<view class="title-top">李晨</view>
-				<view class="title-center">金额：10000</view>
-				<view class="title-bottom">场次：60</view>
+				<image class="titleImg" :src="treenObj.avatar" mode=""></image>
+				<view class="title-top">{{ treenObj.username }}</view>
+				<view class="title-center">金额：{{ treenObj.moneyNum }}</view>
+				<view class="title-bottom">场次：{{ treenObj.sessionNum }}</view>
 			</view>
 		</view>
 		
-		<view class="ranking-treen1" v-if="title == '历史'">
+		<!-- <view class="ranking-treen1" v-if="title == '历史'">
 			<view class="treen-left">
 				<image class="icon1" src="../../static/mine/tow.png" mode=""></image>
 				<image class="titleImg" src="../../static/mine/wei.png" mode=""></image>
-				<!-- <view class="title-top">李晨</view> -->
 				<view class="title-center">档案·玻璃屋</view>
 				<view class="title-bottom">场次：60</view>
 			</view>
@@ -57,25 +56,22 @@
 				<view class="title-center">前男友的100...</view>
 				<view class="title-bottom">场次：60</view>
 			</view>
-		</view>
+		</view> -->
 		
 		
 		
 		<view class="ranking-bottom">
-			<view class="bottom-item" v-for="item in 6">
+			<view class="bottom-item" v-for="(item,index) in list">
 				<view class="item-left">
-					<view class="left-num">4</view>
-					<image src="../../static/mine/wei.png" mode=""></image>
+					<view class="left-num">{{ index }}</view>
+					<image :src="item.avatar" mode=""></image>
 					<view class="left-info">
-						<view class="info-one" :style="{fontWeight:(title=='历史'?700: 400)}">雨羽</view>
-						<view v-if="title != '历史'" class="info-tow">金额：30000</view>
+						<view class="info-one">{{ item.username }}</view>
+						<view class="info-tow">金额：{{ item.moneyNum }}</view>
 					</view>
 				</view>
-				<view class="item-right" v-if="title == '月榜'">
-					场次：30
-				</view>
-				<view class="item-right" v-if="title == '历史'">
-					已开30场
+				<view class="item-right">
+					场次：{{ item.sessionNum }}
 				</view>
 			</view>
 		</view>
@@ -86,12 +82,40 @@
 	export default {
 		data() {
 			return {
-				title: '月榜'
+				title: '月榜',
+				dateType: 1,
+				oneObj: {},
+				towObj: {},
+				treenObj: {},
+				list: []
 			}
+		},
+		mounted() {
+			this.getUserRanking()
 		},
 		methods: {
 			titleChange(title) {
 				this.title = title
+				if(title == '月榜') {
+					this.dateType = 1
+				}else {
+					this.dateType = 2
+				}
+				this.getUserRanking()
+			},
+			async getUserRanking() {
+				let {data: res} = await this.$request.request({
+					url: '/v1/carTeam/queryUserRank',
+					method: 'get',
+					data: {
+						dateType: this.dateType,
+						type: 1
+					}
+				})
+				this.oneObj = res.data[0]
+				this.towObj = res.data[1]
+				this.treenObj = res.data[2]
+				this.list = res.data.slice(3)
 			},
 			// 后退
 			toBack() {

@@ -4,48 +4,48 @@
 			<view class="title-left">
 				<view class="left-mobile-text">手机号</view>
 				<view class="left-mobile-num">
-					<input type="text" value="" placeholder="18610777050" />
+					<input v-model="mobile" type="text" value="" placeholder="18610777050" />
 				</view>
 			</view>
-			<view class="title-right">
+			<view class="title-right" @click="getList">
 				查找
 			</view>
 		</view>
 		
-		<view class="dm-list">
+		<view class="dm-list"  v-if="dmObject.hireFlag == 2 || dmObject.hireFlag == 3">
 			<view class="list-item">
 				<view class="list-left">
 					<image src="../../static/mine/dm2.png" mode=""></image>
 					<!-- <image src="../../static/mine/wei.png" mode=""></image>  未注册显示的头像 -->
 					<view class="left-text">
-						<view class="text-title">鲸落</view>
+						<view class="text-title">{{ dmObject.username }}</view>
 						<!-- <view class="text-title">未注册DM</view> 未注册显示 -->
 						<view class="text-item">
 							<image src="../../static/mine/dm3.png" mode=""></image>
 							<view class="">
-								123456789123
+								{{ dmObject.mobile }}
 							</view>
 						</view>
 						<view class="text-item">
 							<image src="../../static/mine/dm4.png" mode=""></image>
 							<view class="">
-								6
+								{{ dmObject.presideNum }}
 							</view>
 						</view>
 					</view>
 				</view>
 				<view class="list-right">
-					<view class="right-but" @click="dismissal('替换成id')">
+					<view class="right-but" @click="dismissal('替换成id')" v-if="dmObject.hireFlag == 2">
 						雇佣
 					</view>
-					<!-- <view class="right-but" @click="active=item">
-						新建   未注册显示
-					</view> -->
+					<view class="right-but" @click="active=item" v-if="dmObject.hireFlag == 3">
+						新建
+					</view>
 				</view>
 			</view>
 		</view>
 		
-		<view class="info-error">
+		<view class="info-error"  v-if="dmObject.hireFlag == 1">
 			<image src="../../static/mine/errorInfo.png" mode=""></image>
 			<view class="">
 				此DM账号已占用
@@ -55,6 +55,39 @@
 </template>
 
 <script>
+	export default {
+		data() {
+			return {
+				dmObject: {},
+				mobile: '',
+				errorFlag: false
+			}
+		},
+		mounted() {
+		},
+		methods: {
+			async getList() {
+				if(this.mobile == '') {
+					uni.showToast({
+						title: '请输入手机号',
+						icon: 'none'
+					})
+					return
+				}
+				let {data: res} = await this.$request.request({
+					url: '/v1/dm/queryDmByPhone',
+					method: 'post',
+					data: {
+						phone: this.mobile
+					}
+				})
+				if(res.code == 1) {
+					this.dmObject = res.data
+					
+				}
+			}
+		}
+	}
 </script>
 
 <style lang="scss" scoped>

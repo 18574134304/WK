@@ -1,7 +1,7 @@
 <template>
 	<view class="withdrawal">
 		<view class="withdrawal-header">
-			<view class="header-left">账户余额：55.00</view>
+			<view class="header-left">账户余额：{{ money }}</view>
 			<navigator url="withdrawalRule">
 				<view class="header-right">提现规则</view>
 			</navigator>
@@ -11,7 +11,7 @@
 			<view class="box-title">提现金额</view>
 			<view class="box-ipt">
 				<text>￥</text>
-				<input type="text" value="" />
+				<input v-model="WithdrawalMoney" type="text" value="" />
 			</view>
 			<view class="box-bottom">全部提现</view>
 		</view>
@@ -25,13 +25,40 @@
 	export default {
 		data() {
 			return {
-				
+				money: 0,
+				WithdrawalMoney: null
 			}
 		},
+		onLoad(option) {
+			this.money = option.money
+		},
 		methods: {
-			withdrawalPrice() {
+			async withdrawalPrice() {
+				if(!this.WithdrawalMoney || this.WithdrawalMoney <= 0) {
+					uni.showToast({
+						title: '请输入提现金额',
+						icon: 'none'
+					})
+					return
+				}
+				if(this.WithdrawalMoney > this.money) {
+					uni.showToast({
+						title: '提现金额大于余额',
+						icon: 'none'
+					})
+					return
+				}
+				let {data: res} = await this.$request.request({
+					url: '/v1/userWithdraw/addUserWithdraw',
+					method: 'post',
+					data: {
+						money: this.WithdrawalMoney
+					}
+				})
+				this.WithdrawalMoney = null
 				uni.showToast({
-					title: '提现成功'
+					title: res.msg,
+					icon: 'none'
 				})
 			}
 		}

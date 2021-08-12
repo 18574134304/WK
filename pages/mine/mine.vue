@@ -23,7 +23,7 @@
 				<image src="../../static/mine/mine4.png" mode=""></image>
 				<view>剧本管理</view>
 			</view>
-			<view class="title-item" @click="toPath('withdrawal')">
+			<view class="title-item" @click="toPath('myWallet')">
 				<image src="../../static/mine/mine5.png" mode=""></image>
 				<view>收入管理</view>
 			</view>
@@ -34,15 +34,17 @@
 		</view>
 		
 		<view class="mine-list">
-			<view class="list-item">
-				<view class="item-left">
-					<image src="../../static/mine/mine12.png" mode=""></image>
-					<view class="">
-						门店管理
+			<navigator url="../index/shopManage/shopManage">
+				<view class="list-item">
+					<view class="item-left">
+						<image src="../../static/mine/mine12.png" mode=""></image>
+						<view class="">
+							门店管理
+						</view>
 					</view>
+					<image class="item-you" src="../../static/mine/you.png" mode=""></image>
 				</view>
-				<image class="item-you" src="../../static/mine/you.png" mode=""></image>
-			</view>
+			</navigator>
 			<navigator url="dmStration">
 				<view class="list-item">
 					<view class="item-left">

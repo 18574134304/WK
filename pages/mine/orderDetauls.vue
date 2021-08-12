@@ -1,7 +1,7 @@
 <template>
 	<view class="order">
 		<view class="order-header">
-			<image @click="toBack" src="../../static/index/jb.png" mode=""></image>
+			<image @click="toBack" :src="carInfo.scenImg" mode=""></image>
 			<view class="header-tab">
 				<view class="header-img">
 					<image src="../../static/mine/zuo.png" mode=""></image>
@@ -12,42 +12,42 @@
 			
 			<view class="header-box">
 				<view  class="box-img">
-					<image src="../../static/index/jb.png" mode=""></image>
+					<image :src="carInfo.scenImg" mode=""></image>
 				</view>
-				<view class="box-right">
-					<view class="box-title">艾森克の提线木偶</view>
+				<view class="box-right" style="width: 60%;">
+					<view class="box-title">{{ carInfo.scenName }}</view>
 					<view class="box-center">
 						<view class="center-item">
 							<view class="center-img">
 								<image src="../../static/mine/order4.png" mode=""></image>
 							</view>
-							<view>这是房间名称</view>
+							<view class="i-info ellipsis-1">{{ carInfo.roomName }}</view>
 						</view>
 						<view class="center-item">
 							<view class="center-img">
 								<image src="../../static/mine/order6.png" mode=""></image>
 							</view>
-							<view>2021-02-21  14:00</view>
+							<view class="i-info ellipsis-1">{{ carInfo.openCarDate.substring(0,10) }}  {{carInfo.openCarTime }}</view>
 						</view>
 						<view class="center-item">
 							<view class="center-img">
 								<image src="../../static/mine/order1.png" mode=""></image>
 							</view>
-							<view>剧本《姜子牙》6=1</view>
+								<view class="i-info ellipsis-1">{{ carInfo.carTeamTagline }}</view>
 						</view>
 						<view class="center-item">
 							<view class="center-img">
 								<image src="../../static/mine/order5.png" mode=""></image>
 							</view>
-							<view>FFF</view>
+							<view class="i-info ellipsis-1">{{ carInfo.dmNickName }}</view>
 						</view>
 					</view>
-					<view class="right-bottom">
+					<view class="right-bottom" v-if="carInfo.carTeamType == 9">
 						订单已取消
 					</view>
-					<!-- <view class="right-bottom-price">
+					<view class="right-bottom-price" v-if="carInfo.carTeamType == 3">
 						￥1500
-					</view> -->
+					</view>
 				</view>
 			</view>
 		</view>
@@ -59,8 +59,8 @@
 					<image src="../../static/mine/order3.png" mode=""></image>
 				</view>
 				<view class="car-right">
-					<view class="right-item" v-for="item in 12">
-						<image src="../../static/mine/logo.png" mode=""></image>
+					<view class="right-item" v-for="item in carInfo.listImg">
+						<image :src="item" mode=""></image>
 					</view>
 				</view>
 			</view>
@@ -69,19 +69,23 @@
 		<view class="carShopion">
 			<view class="shopion-item">
 				<view class="item-left">占位数量：</view>
-				<view class="item-right">6</view>
+				<view class="item-right">{{ carInfo.occupiedNum }}</view>
 			</view>
 			<view class="shopion-item">
 				<view class="item-left">单价：</view>
-				<view class="item-right">￥50.00</view>
+				<view class="item-right">￥{{ carInfo.price }}</view>
 			</view>
 			<view class="shopion-item">
 				<view class="item-left">合计金额：</view>
-				<view class="item-right">￥300.00</view>
+				<view class="item-right">￥{{ carInfo.totalPrice }}</view>
 			</view>
-			<view class="shopion-item">
+			<view class="shopion-item" v-if="carInfo.carTeamType == 9">
 				<view class="item-left">取消时间：</view>
-				<view class="item-right">2020-02-02 10：00</view>
+				<view class="item-right">{{ carInfo.orderTime }}</view>
+			</view>
+			<view class="shopion-item" v-if="carInfo.carTeamType == 3">
+				<view class="item-left">完成时间：</view>
+				<view class="item-right">{{ carInfo.orderTime }}</view>
 			</view>
 			
 		</view>
@@ -92,10 +96,44 @@
 	export default {
 		data() {
 			return {
-				
+				orderId: '',
+				carInfo: {}
 			}
 		},
+		onLoad(options) {
+			this.orderId = options.id
+		},
+		mounted() {
+			this.getCarInfo()
+		},
 		methods: {
+			// 获取车队详情
+			async getCarInfo() {
+				let {data: res} = await this.$request.request({
+					url: '/v1/carTeam/carTeamInfoApplet',
+					method: 'get',
+					data: {
+						id: this.orderId
+					}
+				})
+				if(res.code == 1) {
+					this.carInfo = res.data
+					uni.showToast({
+						title: res.msg,
+						icon: 'none'
+					})
+				}else {
+					uni.showToast({
+						title: res.msg,
+						icon: 'none'
+					})
+				}
+			},
+			
+			
+			
+			
+			
 			toBack() {
 				uni.navigateBack({
 					delta:1
@@ -152,19 +190,24 @@
 				margin-top: 60rpx;
 				padding: 0 30rpx;
 				z-index: 99;
+				width: 100%;
 				.box-img{
 					width: 240rpx;
 					height: 339rpx;
 					margin-right: 24rpx;
 					z-index: 99;
+					flex-shrink: 0;
 					image{
 						width: 240rpx;
 						height: 339rpx;
 						z-index: 99;
+						flex-shrink: 0;
 					}
 				}
 				.box-right{
+					flex: 1;
 					z-index: 99;
+					// width: 70%;
 					.box-title{
 						font-size: 40rpx;
 						font-weight: 600;
@@ -174,26 +217,35 @@
 						margin-bottom: 20rpx;
 					}
 					.box-center{
+						// flex-shrink: 0;
 						.center-item{
 							display: flex;
-							align-items: center;
+							width: 100%;
 							font-size: 24rpx;
 							color: #FFFFFF;
 							letter-spacing: 4rpx;
 							z-index: 99;
 							margin-bottom: 16rpx;
+							
 							.center-img{
-								width: 20rpx;
-								height: 24rpx;
+								// width: 20rpx;
+								// height: 24rpx;
+								// margin-right: 20rpx;
+								// z-index: 99;
+									width: 20rpx;
+									height: 24rpx;
+								flex-shrink: 0;
 								margin-right: 20rpx;
-								z-index: 99;
 								image{
 									width: 20rpx;
 									height: 24rpx;
 									z-index: 99;
+									flex-shrink: 0;
 								}
 							}
-							view{
+							.i-info{
+								// flex: 1;
+								width: 100%;
 								z-index: 99;
 							}
 							
