@@ -296,7 +296,8 @@
 							"buttons":[{
 								"color":"#09BCAF",
 								"fontSize":"28rpx",
-								"text":"绑定银行卡"
+								"text":"绑定银行卡",
+								"width": "100px"
 							}]
 						}
 					}

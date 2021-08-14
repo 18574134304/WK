@@ -34,7 +34,7 @@
 			</view>
 		</view>
 		
-		<view class="setup-button">
+		<view class="setup-button" @click="logout">
 			退出登录
 		</view>
 	</view>
@@ -51,6 +51,12 @@
 			this.getStorageSize()
 		},
 		methods: {
+			logout() {
+				uni.clearStorageSync()
+				uni.navigateTo({
+					url: '../login/login'
+				})
+			},
 			getStorageSize:function(){
 			let that = this;
 				uni.getStorageInfo({

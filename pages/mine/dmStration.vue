@@ -34,34 +34,34 @@
 					<view class="right-but" @click="dismissal(item.id)">
 						解聘
 					</view>
-					<view class="right-but" @click="active=item">
+					<view class="right-but" @click="statis(item)">
 						统计
 					</view>
 				</view>
 			</view>
-			<view class="dm-statis" v-if="active===item">
+			<view class="dm-statis" v-if="active==item">
 				<view class="statis-item">
 					<view class="statis-left">
 						<image src="../../static/mine/dm5.png" mode=""></image>
-						<view class="">日完成 20</view>
+						<view class="">日完成 {{ dmStatis.todayNum }}</view>
 					</view>
 					<view class="">
-						周完成 50
+						周完成 {{ dmStatis.weekNum }}
 					</view>
 					<view class="">
-						月完成 300
+						月完成 {{ dmStatis.monthNum }}
 					</view>
 				</view>
 				<view class="statis-item">
 					<view class="statis-left">
 						<image src="../../static/mine/dm6.png" mode=""></image>
-						<view class="">日完成 20</view>
+						<view class="">日完成 {{ dmStatis.todayNum }}</view>
 					</view>
 					<view class="">
-						周完成 50
+						周完成 {{ dmStatis.fromWeekNum }}
 					</view>
 					<view class="">
-						月完成 300
+						月完成 {{ dmStatis.fromMonthNum }}
 					</view>
 				</view>
 			</view>
@@ -83,13 +83,25 @@
 				show: false,
 				content: '确认解聘此DM账号么',
 				dmList: [],
-				dmId: ''
+				dmId: '',
+				dmStatis: {}
 			}
 		},
 		mounted() {
 			this.getDmList()
 		},
 		methods: {
+			async statis(item) {
+				this.active = item
+				let {data: res} = await this.$request.request({
+					url: '/v1/dm/queryMainDmOrderStat',
+					method: 'post',
+					data: {
+						id: item.id
+					}
+				})
+				this.dmStatis = res.data
+			},
 			// 获取dm数组
 			async getDmList() {
 				let {data: res} = await this.$request.request({

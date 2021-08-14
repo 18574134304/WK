@@ -20,7 +20,7 @@
 					<view class="box-time">
 						<view class="time-left">
 							<image src="../../static/index/l2.png" mode=""></image>
-							{{ item.openCarDate.substring(0,10)}}{{item.openCarTime }}
+							{{ item.openCarDate?item.openCarDate.substring(0,10):''}}  {{item.openCarTime }}
 						</view>
 						<view class="time-right">
 							<image src="../../static/index/l4.png" mode=""></image>
@@ -71,6 +71,7 @@
 					url: '/v1/message/queryMessageOrderList',
 					method: 'post'
 				})
+				this.tabData = res.data.records
 				console.log(res)
 			}
 		}
