@@ -3,9 +3,6 @@ import Request from '@/myp-request/index.js'
 let token = ''
 // uni.clearStorageSync();
 // token = uni.getStorageSync('token')
-// if(token) {
-	console.log('touken',uni.getStorageSync('token'))
-// }
 // 设置 通用的 baseUrl 以及 header
 const config = {
 	baseUrl: 'http://47.94.232.145:8082/zhongben-app/api',

@@ -50,6 +50,9 @@
 				timer: null
 			}
 		},
+		onShow() {
+			uni.clearStorageSync()
+		},
 		methods: {
 			// 倒计时
 			yzmDjs() {
