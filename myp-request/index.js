@@ -51,7 +51,7 @@ export default class Request {
 			// if we just return, not with Promise.reject, it will be resolved, and the param is null
 			return Promise.reject(this.cancelReject)
 		}
-		config.header["Authorization"]=uni.getStorageSync('token')
+		config.header["TOKEN"]=uni.getStorageSync('token')
 		// u could return a mypReqToCancel with cancelReject
 		if (config.mypReqToCancel) {
 			if (config.cancelReject && (typeof config.cancelReject === 'object')) {
